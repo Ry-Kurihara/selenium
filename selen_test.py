@@ -27,15 +27,14 @@ options.add_argument('--disable-extensions');
 options.add_argument('--proxy-server="direct://"');
 options.add_argument('--proxy-bypass-list=*');
 options.add_argument('--start-maximized');
-# options.add_argument('--headless'); # ※ヘッドレスモードを使用する場合、コメントアウトを外す
+options.add_argument('--headless'); # ※ヘッドレスモードを使用する場合、コメントアウトを外す
 
 
 # In[84]:
 
 
-DRIVER_PATH = '/Users/ryzerk/develop/python/selenium/chromedriver.exe'
-# DRIVER_PATH = '/Users/Kenta/Desktop/Selenium/chromedriver' # ローカル
-# DRIVER_PATH = '/app/.chromedriver/bin/chromedriver'        # heroku
+# DRIVER_PATH = '/Users/ryzerk/develop/python/selenium/chromedriver.exe'
+DRIVER_PATH = '/app/.chromedriver/bin/chromedriver'        # heroku
 
 # ブラウザの起動
 driver = webdriver.Chrome(executable_path=DRIVER_PATH, chrome_options=options)
