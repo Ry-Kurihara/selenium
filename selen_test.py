@@ -6,6 +6,8 @@
 # In[82]:
 
 import os
+import logging 
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.select import Select
@@ -15,6 +17,10 @@ from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+
+# In[77]:
+
+logger = logging.getLogger(__name__)
 
 
 # In[83]:
@@ -31,6 +37,7 @@ options.add_argument('--start-maximized');
 # ※herokuなどの本番環境でヘッドレスモードを使用する
 env = os.environ['APP_ENV']
 if env == 'mywin':
+    options.add_argument('--headless');  # たまにヘッドレスモードで確認したい
     pass
 else:
     options.add_argument('--headless'); 
@@ -76,7 +83,13 @@ availability = element.text
 
 
 # 在庫あり、入荷予定、在庫切れの3種類っぽい
-availability
+if '在庫あり' in availability:
+    pass
+elif '入荷予定' in availability:
+    logger.warning('入荷予定らしい')
+elif '在庫切れ' in availability:
+    logger.warning('在庫切れらしい')
+    
 
 
 # In[90]:
