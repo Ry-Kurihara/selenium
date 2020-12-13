@@ -84,6 +84,7 @@ availability = element.text
 
 # 在庫あり、入荷予定、在庫切れの3種類っぽい
 if '在庫あり' in availability:
+    logger.warning('在庫あったーーーーーー')
     pass
 elif '入荷予定' in availability:
     logger.warning('入荷予定らしい')
@@ -134,6 +135,6 @@ driver.find_element_by_id('signInSubmit').click()
 
 # In[ ]:
 
-
+driver.quit()
 
 
