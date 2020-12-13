@@ -5,7 +5,7 @@
 
 # In[82]:
 
-
+import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.select import Select
@@ -99,7 +99,7 @@ login.click()
 # In[98]:
 
 
-driver.find_element_by_id('ap_email').send_keys('ryku7code@gmail.com')
+driver.find_element_by_id('ap_email').send_keys(os.environ['AMAZON_EMAIL'])
 
 driver.find_element_by_id('continue').click()
 
@@ -107,7 +107,7 @@ driver.find_element_by_id('continue').click()
 # In[95]:
 
 
-driver.find_element_by_id('ap_password').send_keys('rykulock9')
+driver.find_element_by_id('ap_password').send_keys(os.environ['AMAZON_PASS'])
 
 driver.find_element_by_id('signInSubmit').click()
 
