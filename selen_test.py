@@ -103,7 +103,7 @@ driver.current_url
 ##ウィンドウサイズの指定
 driver.set_window_size(1250, 1036)
 ##スクリーンショットを撮る
-driver.save_screenshot('proto.jpg')
+driver.save_screenshot('proto.png')
 
 
 # In[90]:
