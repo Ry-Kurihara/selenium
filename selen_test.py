@@ -85,11 +85,14 @@ availability = element.text
 # 在庫あり、入荷予定、在庫切れの3種類っぽい
 if '在庫あり' in availability:
     logger.warning('在庫あったーーーーーー')
+    print('ざいこありいいいい')
     pass
 elif '入荷予定' in availability:
     logger.warning('入荷予定らしい')
+    print('ざいこよていいいいい')
 elif '在庫切れ' in availability:
     logger.warning('在庫切れらしい')
+    print('ざいこなしいいいいい')
     
 #In[]:
 
