@@ -46,7 +46,7 @@ else:
 # In[84]:
 
 if env == 'mywin':
-    DRIVER_PATH = '/Users/ryzerk/develop/python/selenium/chromedriver.exe'
+    DRIVER_PATH = '/Users/ryzerk/develop/python/selenium/chromedriver'
 else:
     DRIVER_PATH = '/app/.chromedriver/bin/chromedriver' # heroku
 
@@ -91,6 +91,19 @@ elif '入荷予定' in availability:
 elif '在庫切れ' in availability:
     logger.warning('在庫切れらしい')
     
+#In[]:
+
+#再読み込み
+driver.refresh()
+
+#現在のURL取得
+driver.current_url 
+
+#スクリーンショットの保存
+##ウィンドウサイズの指定
+driver.set_window_size(1250, 1036)
+##スクリーンショットを撮る
+driver.save_screenshot('proto.jpg')
 
 
 # In[90]:
