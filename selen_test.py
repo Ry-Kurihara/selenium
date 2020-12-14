@@ -7,6 +7,7 @@
 
 import os
 import logging 
+import cv2
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -37,7 +38,7 @@ options.add_argument('--start-maximized');
 # ※herokuなどの本番環境でヘッドレスモードを使用する
 env = os.environ['APP_ENV']
 if env == 'mywin':
-    # options.add_argument('--headless');  # たまにヘッドレスモードで確認したい
+    options.add_argument('--headless');  # たまにヘッドレスモードで確認したい
     pass
 else:
     options.add_argument('--headless'); 
@@ -107,8 +108,11 @@ else:
 #スクリーンショットの保存
 ##ウィンドウサイズの指定
 # driver.set_window_size(1250, 1036)
-##スクリーンショットを撮る
-# driver.save_screenshot('proto.png')
+#スクリーンショットを撮る
+driver.save_screenshot('proto.png')
+imgCV = cv2.imread('proto.png')
+cv2.imshow("image", imgCV)
+cv2.waitKey(0)
 
 
 # In[90]:
