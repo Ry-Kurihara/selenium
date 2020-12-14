@@ -93,6 +93,8 @@ elif '入荷予定' in availability:
 elif '在庫切れ' in availability:
     logger.warning('在庫切れらしい')
     print('ざいこなしいいいいい')
+else:
+    logger.warning(f'何にも当てはまってないお：availability is {availability}')
     
 #In[]:
 
