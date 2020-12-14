@@ -109,41 +109,41 @@ driver.save_screenshot('proto.jpg')
 # In[90]:
 
 
-elem_login_btn = driver.find_element_by_id('add-to-cart-button')
-elem_login_btn.click()
+# elem_login_btn = driver.find_element_by_id('add-to-cart-button')
+# elem_login_btn.click()
 
 
-# In[96]:
+# # In[96]:
 
 
-driver.get('https://amazon.co.jp/gp/cart/view.html/ref=nav_cart')
+# driver.get('https://amazon.co.jp/gp/cart/view.html/ref=nav_cart')
 
 
-# In[97]:
+# # In[97]:
 
 
-login = driver.find_element_by_name('proceedToRetailCheckout')
-login.click()
+# login = driver.find_element_by_name('proceedToRetailCheckout')
+# login.click()
 
-# すでにログイン済みの場合は注文内容確認ページへ遷移する
-
-
-# ### ログイン済みの場合エラーになってしまうので条件分岐が必要
-
-# In[98]:
+# # すでにログイン済みの場合は注文内容確認ページへ遷移する
 
 
-driver.find_element_by_id('ap_email').send_keys(os.environ['AMAZON_EMAIL'])
+# # ### ログイン済みの場合エラーになってしまうので条件分岐が必要
 
-driver.find_element_by_id('continue').click()
-
-
-# In[95]:
+# # In[98]:
 
 
-driver.find_element_by_id('ap_password').send_keys(os.environ['AMAZON_PASS'])
+# driver.find_element_by_id('ap_email').send_keys(os.environ['AMAZON_EMAIL'])
 
-driver.find_element_by_id('signInSubmit').click()
+# driver.find_element_by_id('continue').click()
+
+
+# # In[95]:
+
+
+# driver.find_element_by_id('ap_password').send_keys(os.environ['AMAZON_PASS'])
+
+# driver.find_element_by_id('signInSubmit').click()
 
 
 # In[ ]:
