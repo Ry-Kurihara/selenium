@@ -8,7 +8,7 @@
 import os
 import logging 
 # import cv2
-# buildpack apkを消す。opencv-python消す：appfile消す
+# buildpack apkを消す。（https://github.com/heroku/heroku-buildpack-apt）opencv-python消す：appfile消す
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
