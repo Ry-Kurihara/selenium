@@ -7,7 +7,8 @@
 
 import os
 import logging 
-import cv2
+# import cv2
+# buildpack apkを消す。opencv-python消す：appfile消す
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -109,10 +110,10 @@ else:
 ##ウィンドウサイズの指定
 # driver.set_window_size(1250, 1036)
 #スクリーンショットを撮る
-driver.save_screenshot('proto.png')
-imgCV = cv2.imread('proto.png')
-cv2.imshow("image", imgCV)
-cv2.waitKey(0)
+driver.save_screenshot('proto2.png')
+# imgCV = cv2.imread('proto.png')
+# cv2.imshow("image", imgCV)
+# cv2.waitKey(0)
 
 
 # In[90]:
