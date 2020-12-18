@@ -1,15 +1,4 @@
 # -*- coding: utf-8 -*-
-from flask import Flask
-
-app = Flask(__name__)
-
-@app.route('/')
-def index():
-    return 'hello, worldooooooooooooooooooooooooooooo'
-
-if __name__ == '__main__':
-    app.run()
-'''
 from flask import Flask, request, abort
 import os
 
@@ -63,4 +52,3 @@ if __name__ == "__main__":
 #    app.run()
     port = int(os.getenv("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
-    '''
