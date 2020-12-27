@@ -2,9 +2,8 @@
 from flask import Flask, request, abort
 import os
 import pandas as pd 
-from sqlalchemy import create_engine, engine
+from sqlalchemy import create_engine
 
-from lib import print_test
 from lib import selen_autopurchase
 import boto3 
 
@@ -17,11 +16,10 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, QuickReplyButton, QuickReply, TextSendMessage, TemplateSendMessage, ImageSendMessage, PostbackEvent,
     CarouselColumn, CarouselTemplate, ButtonsTemplate,
-    PostbackAction, URIAction, MessageAction, messages, 
-
+    PostbackAction, URIAction, MessageAction
 )
+
 from linebot.models.template import CarouselColumn, TemplateSendMessage
-from sqlalchemy.sql.elements import Null
 
 app = Flask(__name__)
 
