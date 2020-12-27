@@ -14,6 +14,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
 import boto3 
+import time 
 
 logger = logging.getLogger(__name__)
 
@@ -49,6 +50,7 @@ class PurchaseClass:
         # ブラウザの起動
         print('起動します')
         driver = webdriver.Chrome(executable_path=self.DRIVER_PATH, chrome_options=self.options)
+        time.sleep(3)
 
         ##ウィンドウサイズの指定
         driver.set_window_size(1920, 1080)
@@ -56,10 +58,12 @@ class PurchaseClass:
         # Googleにアクセスする
         url = 'https://google.com/'
         driver.get(url)
+        time.sleep(3)
 
         # Amazonにアクセスする
         url = 'https://www.amazon.co.jp/dp/B08GG247WR/ref=s9_acss_bw_cg_toio_md1_w?&me=AN1VRQENFRJN5&pf_rd_m=A3P5ROKL5A1OLE&pf_rd_s=merchandised-search-4&pf_rd_r=W83F5KPFR335M79YGQ4X&pf_rd_t=101&pf_rd_p=6cc9fda7-b07a-4770-bec3-ee1dff21047b&pf_rd_i=3355676051'
         driver.get(url)
+        time.sleep(3)
 
         selector = '#availability'
         element = driver.find_element_by_css_selector(selector)
