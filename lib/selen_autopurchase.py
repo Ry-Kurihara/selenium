@@ -50,7 +50,7 @@ class PurchaseClass:
         # ブラウザの起動
         print('起動します')
         driver = webdriver.Chrome(executable_path=self.DRIVER_PATH, chrome_options=self.options)
-        time.sleep(3)
+        time.sleep(4)
 
         ##ウィンドウサイズの指定
         driver.set_window_size(1920, 1080)
