@@ -89,9 +89,10 @@ class PurchaseClass:
         # driver.set_window_size(1250, 1036)
         #スクリーンショットを撮る
         image_name = f'shot{timestamp}.png'
+        print(f'{image_name}だよおおおおおおおおお')
         driver.save_screenshot(image_name)
-        s3_resorce = boto3.resource('s3')
-        s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
+        # s3_resorce = boto3.resource('s3')
+        # s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
         # imgCV = cv2.imread('proto.png')
         # cv2.imshow("image", imgCV)
         # cv2.waitKey(0)
