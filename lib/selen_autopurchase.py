@@ -91,31 +91,25 @@ class PurchaseClass:
 
         # スクリーンショットの保存
         image_name = f'shot{timestamp}.png'
-        print(f'{image_name}だよおおおおおおおおお')
         driver.save_screenshot(image_name)
         s3_resorce = boto3.resource('s3')
         s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
-        # imgCV = cv2.imread('proto.png')
-        # cv2.imshow("image", imgCV)
-        # cv2.waitKey(0)
+        print(driver.page_source)
 
         # elem_login_btn = driver.find_element_by_id('add-to-cart-button')
         # elem_login_btn.click()
 
         # driver.get('https://amazon.co.jp/gp/cart/view.html/ref=nav_cart')
 
-        # login = driver.find_element_by_name('proceedToRetailCheckout')
-        # login.click()
+        login = driver.find_element_by_name('proceedToRetailCheckout')
+        login.click()
 
-        # # すでにログイン済みの場合は注文内容確認ページへ遷移する
-        # # ### ログイン済みの場合エラーになってしまうので条件分岐が必要
+        # すでにログイン済みの場合は注文内容確認ページへ遷移する
+        # ログイン済みの場合エラーになってしまうので条件分岐が必要
 
-        # driver.find_element_by_id('ap_email').send_keys(os.environ['AMAZON_EMAIL'])
-
-        # driver.find_element_by_id('continue').click()
-
-        # driver.find_element_by_id('ap_password').send_keys(os.environ['AMAZON_PASS'])
-
-        # driver.find_element_by_id('signInSubmit').click()
+        driver.find_element_by_id('ap_email').send_keys(os.environ['AMAZON_EMAIL'])
+        driver.find_element_by_id('continue').click()
+        driver.find_element_by_id('ap_password').send_keys(os.environ['AMAZON_PASS'])
+        driver.find_element_by_id('signInSubmit').click()
 
         driver.quit()
