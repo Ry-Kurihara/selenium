@@ -89,24 +89,23 @@ class PurchaseClass:
         #現在のURL取得
         # driver.current_url 
 
-        # スクリーンショットの保存
-        image_name = f'shot{timestamp}.png'
-        driver.save_screenshot(image_name)
-        s3_resorce = boto3.resource('s3')
-        s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
-        print(driver.page_source)
 
         # elem_login_btn = driver.find_element_by_id('add-to-cart-button')
         # elem_login_btn.click()
 
         # driver.get('https://amazon.co.jp/gp/cart/view.html/ref=nav_cart')
 
-        login = driver.find_element_by_name('proceedToRetailCheckout')
-        login.click()
+        # login = driver.find_element_by_name('proceedToRetailCheckout')
+        # login.click()
 
         # すでにログイン済みの場合は注文内容確認ページへ遷移する
         # ログイン済みの場合エラーになってしまうので条件分岐が必要
-
+        driver.find_element_by_xpath("//a[@id='nav-link-accountList']/span").click()
+        # スクリーンショットの保存
+        image_name = f'shot{timestamp}.png'
+        driver.save_screenshot(image_name)
+        s3_resorce = boto3.resource('s3')
+        s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
         driver.find_element_by_id('ap_email').send_keys(os.environ['AMAZON_EMAIL'])
         driver.find_element_by_id('continue').click()
         driver.find_element_by_id('ap_password').send_keys(os.environ['AMAZON_PASS'])
