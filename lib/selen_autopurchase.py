@@ -51,7 +51,7 @@ class PurchaseClass:
         # ブラウザの起動
         print('起動します')
         driver = webdriver.Chrome(executable_path=self.DRIVER_PATH, chrome_options=self.options)
-        time.sleep(2)
+        time.sleep(1)
 
         ##ウィンドウサイズの指定
         # driver.set_window_size(960, 540)
@@ -59,12 +59,12 @@ class PurchaseClass:
         # Googleにアクセスする
         url = 'https://google.com/'
         driver.get(url)
-        time.sleep(2)
+        time.sleep(1)
 
         # Amazonにアクセスする
         url = 'https://www.amazon.co.jp/dp/B08GG247WR/ref=s9_acss_bw_cg_toio_md1_w?&me=AN1VRQENFRJN5&pf_rd_m=A3P5ROKL5A1OLE&pf_rd_s=merchandised-search-4&pf_rd_r=W83F5KPFR335M79YGQ4X&pf_rd_t=101&pf_rd_p=6cc9fda7-b07a-4770-bec3-ee1dff21047b&pf_rd_i=3355676051'
         driver.get(url)
-        time.sleep(2)
+        time.sleep(1)
 
         selector = '#availability'
         element = driver.find_element_by_css_selector(selector)
@@ -105,6 +105,7 @@ class PurchaseClass:
         driver.find_element_by_id('continue').click()
         driver.find_element_by_id('ap_password').send_keys(os.environ['AMAZON_PASS'])
         driver.find_element_by_id('signInSubmit').click()
+        time.sleep(2)
 
         # スクリーンショットの保存
         image_name = f'shot{timestamp}.png'
