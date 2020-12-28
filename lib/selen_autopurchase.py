@@ -27,6 +27,7 @@ class PurchaseClass:
         self.options.add_argument('--proxy-server="direct://"');
         self.options.add_argument('--proxy-bypass-list=*');
         self.options.add_argument('--no-sandbox');
+        self.options.add_argument('--window-size=1920,1080')
 
         # ※herokuなどの本番環境でヘッドレスモードを使用する
         env = os.environ['APP_ENV']
@@ -53,7 +54,7 @@ class PurchaseClass:
         time.sleep(2)
 
         ##ウィンドウサイズの指定
-        driver.set_window_size(960, 540)
+        # driver.set_window_size(960, 540)
 
         # Googleにアクセスする
         url = 'https://google.com/'
