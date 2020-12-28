@@ -196,7 +196,7 @@ def get_target_item(event):
     s3_image_url = s3_client.generate_presigned_url(
         ClientMethod = 'get_object',
         Params = {'Bucket': 'my-bucket-ps5', 'Key': image_name},
-        ExpiresIn = 30,
+        ExpiresIn = 600,
         HttpMethod = 'GET'
     )
     print(f'URLは{s3_image_url}だあああああああああ')
