@@ -101,14 +101,15 @@ class PurchaseClass:
         # すでにログイン済みの場合は注文内容確認ページへ遷移する
         # ログイン済みの場合エラーになってしまうので条件分岐が必要
         driver.find_element_by_xpath("//a[@id='nav-link-accountList']/span").click()
+        driver.find_element_by_id('ap_email').send_keys(os.environ['AMAZON_EMAIL'])
+        driver.find_element_by_id('continue').click()
+        driver.find_element_by_id('ap_password').send_keys(os.environ['AMAZON_PASS'])
+        driver.find_element_by_id('signInSubmit').click()
+
         # スクリーンショットの保存
         image_name = f'shot{timestamp}.png'
         driver.save_screenshot(image_name)
         s3_resorce = boto3.resource('s3')
         s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
-        driver.find_element_by_id('ap_email').send_keys(os.environ['AMAZON_EMAIL'])
-        driver.find_element_by_id('continue').click()
-        driver.find_element_by_id('ap_password').send_keys(os.environ['AMAZON_PASS'])
-        driver.find_element_by_id('signInSubmit').click()
 
         driver.quit()
