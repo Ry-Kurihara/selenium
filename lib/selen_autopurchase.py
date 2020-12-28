@@ -50,7 +50,7 @@ class PurchaseClass:
         # ブラウザの起動
         print('起動します')
         driver = webdriver.Chrome(executable_path=self.DRIVER_PATH, chrome_options=self.options)
-        time.sleep(4)
+        time.sleep(2)
 
         ##ウィンドウサイズの指定
         driver.set_window_size(960, 540)
@@ -58,12 +58,12 @@ class PurchaseClass:
         # Googleにアクセスする
         url = 'https://google.com/'
         driver.get(url)
-        time.sleep(3)
+        time.sleep(2)
 
         # Amazonにアクセスする
         url = 'https://www.amazon.co.jp/dp/B08GG247WR/ref=s9_acss_bw_cg_toio_md1_w?&me=AN1VRQENFRJN5&pf_rd_m=A3P5ROKL5A1OLE&pf_rd_s=merchandised-search-4&pf_rd_r=W83F5KPFR335M79YGQ4X&pf_rd_t=101&pf_rd_p=6cc9fda7-b07a-4770-bec3-ee1dff21047b&pf_rd_i=3355676051'
         driver.get(url)
-        time.sleep(3)
+        time.sleep(2)
 
         selector = '#availability'
         element = driver.find_element_by_css_selector(selector)
@@ -88,15 +88,12 @@ class PurchaseClass:
         #現在のURL取得
         # driver.current_url 
 
-        #スクリーンショットの保存
-        ##ウィンドウサイズの指定
-        # driver.set_window_size(1250, 1036)
-        #スクリーンショットを撮る
+        # スクリーンショットの保存
         image_name = f'shot{timestamp}.png'
         print(f'{image_name}だよおおおおおおおおお')
         driver.save_screenshot(image_name)
-        # s3_resorce = boto3.resource('s3')
-        # s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
+        s3_resorce = boto3.resource('s3')
+        s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
         # imgCV = cv2.imread('proto.png')
         # cv2.imshow("image", imgCV)
         # cv2.waitKey(0)
