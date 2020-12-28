@@ -26,7 +26,7 @@ class PurchaseClass:
         self.options.add_argument('--disable-extensions');
         self.options.add_argument('--proxy-server="direct://"');
         self.options.add_argument('--proxy-bypass-list=*');
-        self.options.add_argument('--start-maximized');
+        self.options.add_argument('--no-sandbox');
 
         # ※herokuなどの本番環境でヘッドレスモードを使用する
         env = os.environ['APP_ENV']
@@ -53,7 +53,7 @@ class PurchaseClass:
         time.sleep(4)
 
         ##ウィンドウサイズの指定
-        driver.set_window_size(1920, 1080)
+        driver.set_window_size(960, 540)
 
         # Googleにアクセスする
         url = 'https://google.com/'
