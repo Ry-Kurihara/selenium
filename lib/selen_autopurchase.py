@@ -127,12 +127,19 @@ class PurchaseClass:
         # 文字認証出てきたとき
         try:
             driver.find_element_by_id('auth-captcha-guess')
+            # cookieの取得
             print('pkl送信します')
             pkl_name = 'captcha.pickle'
             with open(pkl_name, 'wb') as f:
                 pickle.dump(driver.get_cookies(), f)
-            
             s3_resorce.Bucket('my-bucket-ps5').upload_file(pkl_name, pkl_name)
+            # urlの取得
+            url_file = 'url_is.txt'
+            current_url = driver.current_url
+            with open(url_file, 'w') as f:
+                f.write(current_url)
+            s3_resorce.Bucket('my-bucket-ps5').upload_file(url_file, url_file)
+
             # スクリーンショットの保存
             image_name = f'shot{timestamp}.png'
             driver.save_screenshot(image_name)
@@ -150,14 +157,33 @@ class PurchaseClass:
 
         
 
-    def touch_captcha(self, captcha_type, timestamp):
-        pkl_name = 'captcha.pickle'
+    def touch_captcha(self, captcha_string, timestamp):
         s3 = boto3.resource('s3')
+
+        pkl_name = 'captcha.pickle'
         s3.Bucket('my-bucket-ps5').download_file(pkl_name, pkl_name)
         with open(pkl_name, 'rb') as f:
-            driver = pickle.load(f)
+            cookies = pickle.load(f)
+        driver = webdriver.Chrome(executable_path=self.DRIVER_PATH, chrome_options=self.options)
+        driver.add_cookie(cookies)
+
+        # urlの取得
+        url_file = 'url_is.txt'
+        s3.Bucket('my-bucket-ps5').download_file(url_file, url_file)
+        with open(url_file, 'r') as f:
+            url = f.read()
+
+        driver.get(url)
+        time.sleep(2)
+
+        # スクリーンショットの保存
+        image_name = f'link{timestamp}.png'
+        driver.save_screenshot(image_name)
+        s3_resorce = boto3.resource('s3')
+        s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
+
         driver.find_element_by_id('ap_password').send_keys(os.environ['AMAZON_PASS'])
-        driver.find_element_by_id('auth-captcha-guess').send_keys(captcha_type)
+        driver.find_element_by_id('auth-captcha-guess').send_keys(captcha_string)
         driver.find_element_by_id('signInSubmit').click()
         time.sleep(2)
 
