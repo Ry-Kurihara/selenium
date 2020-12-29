@@ -127,4 +127,17 @@ class PurchaseClass:
             f.write(html)
         s3_resorce.Bucket('my-bucket-ps5').upload_file(html_name, html_name)
 
+        # 文字認証出てきたとき
+        try:
+            driver.find_element_by_id('auth-captcha-guess')
+        except Exception as e:
+            print(f'not_find_of_error?_{e}!!!!!!')
+            driver.quit()
+            return None
+
+        driver.find_element_by_id('ap_password').send_keys(os.environ['AMAZON_PASS'])
+        type_characters = input()
+        driver.find_element_by_id('auth-captcha-guess').send_keys(type_characters)
+
+
         driver.quit()
