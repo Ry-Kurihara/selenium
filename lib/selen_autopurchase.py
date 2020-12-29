@@ -14,8 +14,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
 import boto3 
-import time 
-import pandas as pd 
+import time  
+import pickle
 
 logger = logging.getLogger(__name__)
 
@@ -127,8 +127,11 @@ class PurchaseClass:
         # 文字認証出てきたとき
         try:
             driver.find_element_by_id('auth-captcha-guess')
+            print('pkl送信します')
             pkl_name = 'captcha.pkl'
-            pd.to_pickle(driver, pkl_name)
+            with open(pkl_name, 'wb') as f:
+                pickle.dump(driver, f)
+            
             s3_resorce.Bucket('my-bucket-ps5').upload_file(pkl_name, pkl_name)
             # スクリーンショットの保存
             image_name = f'shot{timestamp}.png'
@@ -151,7 +154,8 @@ class PurchaseClass:
         pkl_name = 'captcha.pkl'
         s3 = boto3.resource('s3')
         s3.Bucket('my-bucket-ps5').download_file(pkl_name, pkl_name)
-        driver = pd.read_pickle(pkl_name)
+        with open(pkl_name, 'rb') as f:
+            driver = pickle.load(f)
         driver.find_element_by_id('ap_password').send_keys(os.environ['AMAZON_PASS'])
         driver.find_element_by_id('auth-captcha-guess').send_keys(captcha_type)
         driver.find_element_by_id('signInSubmit').click()
