@@ -30,6 +30,8 @@ class PurchaseClass:
         self.options.add_argument('--no-sandbox');
         self.options.add_argument('--disable-dev-shm-usage')
         self.options.add_argument('--window-size=1920,1080')
+        # self.options.add_argument("--user-data-dir=user") 
+        # self.options.add_argument('--profile-directory=profile')
 
         # ※herokuなどの本番環境でヘッドレスモードを使用する
         env = os.environ['APP_ENV']
@@ -133,6 +135,7 @@ class PurchaseClass:
             with open(pkl_name, 'wb') as f:
                 pickle.dump(driver.get_cookies(), f)
             s3_resorce.Bucket('my-bucket-ps5').upload_file(pkl_name, pkl_name)
+
             # urlの取得
             url_file = 'url_is.txt'
             current_url = driver.current_url
@@ -144,14 +147,24 @@ class PurchaseClass:
             image_name = f'shot{timestamp}.png'
             driver.save_screenshot(image_name)
             s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
+
             return None 
         except Exception as e:
             print(f'not_find_of_error?_{e}!!!!!!')
+
             # スクリーンショットの保存
             image_name = f'shot{timestamp}.png'
             driver.save_screenshot(image_name)
             s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
             driver.quit()
+
+            # cookieの取得
+            print('pkl送信します')
+            pkl_name = 'captcha.pickle'
+            with open(pkl_name, 'wb') as f:
+                pickle.dump(driver.get_cookies(), f)
+            s3_resorce.Bucket('my-bucket-ps5').upload_file(pkl_name, pkl_name)
+
             return None
 
 
@@ -165,6 +178,9 @@ class PurchaseClass:
         with open(pkl_name, 'rb') as f:
             cookies = pickle.load(f)
         driver = webdriver.Chrome(executable_path=self.DRIVER_PATH, chrome_options=self.options)
+        amazon_url = 'https://www.amazon.co.jp/'
+        driver.get(amazon_url)
+        
         for cookie in cookies:
             driver.add_cookie(cookie)
 
