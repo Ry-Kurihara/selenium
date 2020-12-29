@@ -179,6 +179,31 @@ def get_url_and_ask_time(event):
             messages=messages
         )
 
+    elif 'captcha_is_' in event.message.text:
+        captcha = event.message.text[11:]
+        timestamp = str(event.timestamp)
+        options_with_env = selen_autopurchase.PurchaseClass()
+        options_with_env.touch_captcha(captcha_type=captcha, timestamp=timestamp)
+
+        image_name = f'captcha{timestamp}.png'
+        s3_client = boto3.client('s3')
+        s3_image_url = s3_client.generate_presigned_url(
+            ClientMethod = 'get_object',
+            Params = {'Bucket': 'my-bucket-ps5', 'Key': image_name},
+            ExpiresIn = 600,
+            HttpMethod = 'GET'
+        )
+        message = TextSendMessage(text="認証突破したか？？！")
+        image_message = ImageSendMessage(
+                original_content_url=s3_image_url,
+                preview_image_url=s3_image_url, 
+            )
+        messages = [message, image_message]
+        line_bot_api.reply_message(
+            event.reply_token,
+            messages=messages
+        )
+
     else:
         messages = TextSendMessage(text='何を言っているのかわかりません')
         line_bot_api.reply_message(

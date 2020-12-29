@@ -15,6 +15,7 @@ from selenium.common.exceptions import TimeoutException
 
 import boto3 
 import time 
+import pandas as pd 
 
 logger = logging.getLogger(__name__)
 
@@ -115,11 +116,7 @@ class PurchaseClass:
         driver.find_element_by_id('signInSubmit').click()
         time.sleep(2)
 
-        # スクリーンショットの保存
-        image_name = f'shot{timestamp}.png'
-        driver.save_screenshot(image_name)
         s3_resorce = boto3.resource('s3')
-        s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
 
         html = driver.page_source
         html_name = 'hoge.html'
@@ -130,14 +127,38 @@ class PurchaseClass:
         # 文字認証出てきたとき
         try:
             driver.find_element_by_id('auth-captcha-guess')
+            pkl_name = 'captcha.pkl'
+            pd.to_pickle(driver, pkl_name)
+            s3_resorce.Bucket('my-bucket-ps5').upload_file(pkl_name, pkl_name)
+            # スクリーンショットの保存
+            image_name = f'shot{timestamp}.png'
+            driver.save_screenshot(image_name)
+            s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
+            return None 
         except Exception as e:
             print(f'not_find_of_error?_{e}!!!!!!')
+            # スクリーンショットの保存
+            image_name = f'shot{timestamp}.png'
+            driver.save_screenshot(image_name)
+            s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
             driver.quit()
             return None
 
+
+        
+
+    def touch_captcha(self, captcha_type, timestamp):
+        pkl_name = 'captcha.pkl'
+        s3 = boto3.resource('s3')
+        s3.Bucket('my-bucket-ps5').download_file(pkl_name, pkl_name)
+        driver = pd.read_pickle(pkl_name)
         driver.find_element_by_id('ap_password').send_keys(os.environ['AMAZON_PASS'])
-        type_characters = input()
-        driver.find_element_by_id('auth-captcha-guess').send_keys(type_characters)
+        driver.find_element_by_id('auth-captcha-guess').send_keys(captcha_type)
+        driver.find_element_by_id('signInSubmit').click()
+        time.sleep(2)
 
-
-        driver.quit()
+        # スクリーンショットの保存
+        image_name = f'captcha{timestamp}.png'
+        driver.save_screenshot(image_name)
+        s3_resorce = boto3.resource('s3')
+        s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
