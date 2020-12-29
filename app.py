@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from logging import error
 from flask import Flask, request, abort
 import os
 import pandas as pd 
@@ -189,7 +190,15 @@ def get_url_and_ask_time(event):
 def get_target_item(event):
     timestamp = str(event.timestamp)
     options_with_env = selen_autopurchase.PurchaseClass()
-    options_with_env.get_item(timestamp=timestamp)
+    try:
+        options_with_env.get_item(timestamp=timestamp)
+    except Exception as e:
+        error_message = f'error_is_{e}!!!!!!'
+        line_bot_api.reply_message(
+            event.reply_token,
+            messages=error_message
+        )
+        return None
 
     image_name = f'shot{timestamp}.png'
     s3_client = boto3.client('s3')
