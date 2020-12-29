@@ -128,7 +128,7 @@ class PurchaseClass:
         try:
             driver.find_element_by_id('auth-captcha-guess')
             print('pkl送信します')
-            pkl_name = 'captcha.pkl'
+            pkl_name = 'captcha.pickle'
             with open(pkl_name, 'wb') as f:
                 pickle.dump(driver, f)
             
@@ -151,7 +151,7 @@ class PurchaseClass:
         
 
     def touch_captcha(self, captcha_type, timestamp):
-        pkl_name = 'captcha.pkl'
+        pkl_name = 'captcha.pickle'
         s3 = boto3.resource('s3')
         s3.Bucket('my-bucket-ps5').download_file(pkl_name, pkl_name)
         with open(pkl_name, 'rb') as f:
