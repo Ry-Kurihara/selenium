@@ -165,7 +165,8 @@ class PurchaseClass:
         with open(pkl_name, 'rb') as f:
             cookies = pickle.load(f)
         driver = webdriver.Chrome(executable_path=self.DRIVER_PATH, chrome_options=self.options)
-        driver.add_cookie(cookies)
+        for cookie in cookies:
+            driver.add_cookie(cookie)
 
         # urlの取得
         url_file = 'url_is.txt'
