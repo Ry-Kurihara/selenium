@@ -183,7 +183,7 @@ def get_url_and_ask_time(event):
         captcha = event.message.text[11:]
         timestamp = str(event.timestamp)
         options_with_env = selen_autopurchase.PurchaseClass()
-        options_with_env.touch_captcha(captcha_type=captcha, timestamp=timestamp)
+        options_with_env.touch_captcha(captcha_string=captcha, timestamp=timestamp)
 
         image_name = f'captcha{timestamp}.png'
         s3_client = boto3.client('s3')
