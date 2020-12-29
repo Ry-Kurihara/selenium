@@ -180,7 +180,7 @@ class PurchaseClass:
         driver = webdriver.Chrome(executable_path=self.DRIVER_PATH, chrome_options=self.options)
         amazon_url = 'https://www.amazon.co.jp/'
         driver.get(amazon_url)
-        
+
         for cookie in cookies:
             driver.add_cookie(cookie)
 
@@ -190,11 +190,24 @@ class PurchaseClass:
         with open(url_file, 'r') as f:
             url = f.read()
 
-        driver.get(url)
+        #driver.get(url)
+        #time.sleep(2)
+
+        # スクリーンショットの保存
+        image_name = f'link_pre{timestamp}.png'
+        driver.save_screenshot(image_name)
+        s3_resorce = boto3.resource('s3')
+        s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
+
+        driver.find_element_by_xpath("//a[@id='nav-link-accountList']/span").click()
+        driver.find_element_by_id('ap_email').send_keys(os.environ['AMAZON_EMAIL'])
+        driver.find_element_by_id('continue').click()
+        driver.find_element_by_id('ap_password').send_keys(os.environ['AMAZON_PASS'])
+        driver.find_element_by_id('signInSubmit').click()
         time.sleep(2)
 
         # スクリーンショットの保存
-        image_name = f'link{timestamp}.png'
+        image_name = f'link_after{timestamp}.png'
         driver.save_screenshot(image_name)
         s3_resorce = boto3.resource('s3')
         s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
