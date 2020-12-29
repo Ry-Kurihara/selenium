@@ -130,7 +130,7 @@ class PurchaseClass:
             print('pkl送信します')
             pkl_name = 'captcha.pickle'
             with open(pkl_name, 'wb') as f:
-                pickle.dump(driver, f)
+                pickle.dump(driver.get_cookies(), f)
             
             s3_resorce.Bucket('my-bucket-ps5').upload_file(pkl_name, pkl_name)
             # スクリーンショットの保存
