@@ -142,7 +142,7 @@ class PurchaseClass:
             logger.warning(f'該当なしです：availability is {availability} ですよ')
             self._upload_screen_shot(driver, 'debug', timestamp)
             return '在庫不明です'
-
+        self._upload_screen_shot(driver, 'debug', timestamp)
         # try:
         #     self._amazon_login(driver)
         # except NoSuchElementException:
@@ -154,7 +154,8 @@ class PurchaseClass:
         elem_login_btn = driver.find_element_by_id('add-to-cart-button')
         elem_login_btn.click()
         driver.get('https://amazon.co.jp/gp/cart/view.html/ref=nav_cart')
-        self._upload_screen_shot(driver, 'debug', timestamp)
+        
+
         return '商品をカートに入れました。購入確定しますか？'
 
     def debug_screenshot(self, timestamp):
