@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from logging import error
+from time import time
 from flask import Flask, request, abort
 import os
 import pandas as pd 
@@ -138,7 +139,7 @@ def get_url_and_ask_time(event):
     df = pd.DataFrame(data=[[user_id, timestamp, message]], columns=['user_id', 'timestamp', 'message'])
     df.to_sql('line_autopurchase', con=engine, if_exists='append', index=False)
 
-    if event.message.text in ('Amazonで購入'):
+    if 'Amazonで購入' in event.message.text:
         messages = TextSendMessage(text='URLを入力してください')
         line_bot_api.reply_message(
             event.reply_token,
@@ -146,7 +147,7 @@ def get_url_and_ask_time(event):
         )
 
     elif 'asin_is:' in event.message.text:
-        asin = event.message.text[8:] # url_isはいらない
+        asin = event.message.text[8:] # asin_isはいらない
         image_url = f'https://images-na.ssl-images-amazon.com/images/P/{asin}.09.THUMBZZZ.jpg'
         buttons_message = TemplateSendMessage(
             alt_text='画像が表示できません',
@@ -157,7 +158,7 @@ def get_url_and_ask_time(event):
                 actions=[ 
                     PostbackAction(
                         label='購入します',
-                        # display_text='購入', ユーザーが送るメッセージはいらない
+                        display_text='購入します',
                         data='itempurchase'
                     ),
                     MessageAction(
@@ -172,8 +173,25 @@ def get_url_and_ask_time(event):
             messages=buttons_message
         )
 
-    elif event.message.text in ('買わないよ'):
+    elif '買わないよ' in event.message.text:
         messages = TextSendMessage(text='そうですか')
+        line_bot_api.reply_message(
+            event.reply_token,
+            messages=messages
+        )
+
+    elif 'debug_okama' in event.message.text:
+        timestamp = str(event.timestamp)
+        ins = selen_autopurchase.PurchaseClass()
+        ins.debug_screenshot(timestamp)
+        s3_image_url = _get_s3_image_url('debug', timestamp)
+
+        message = TextSendMessage(text="検索結果を表示するよ")
+        image_message = ImageSendMessage(
+                original_content_url=s3_image_url,
+                preview_image_url=s3_image_url, 
+            )
+        messages = [message, image_message]
         line_bot_api.reply_message(
             event.reply_token,
             messages=messages
@@ -215,17 +233,21 @@ def get_url_and_ask_time(event):
 def get_target_item(event):
     timestamp = str(event.timestamp)
     options_with_env = selen_autopurchase.PurchaseClass()
-    try:
-        options_with_env.get_item(timestamp=timestamp)
-    except Exception as e:
-        error_message = f'error_is_{e}!!!!!!'
-        line_bot_api.reply_message(
-            event.reply_token,
-            messages=error_message
-        )
-        return None
+    item_message = options_with_env.get_item(timestamp)
+    s3_image_url = _get_s3_image_url('debug', timestamp)
+    message = TextSendMessage(text=item_message)
+    image_message = ImageSendMessage(
+            original_content_url=s3_image_url,
+            preview_image_url=s3_image_url,
+    )
+    messages = [message, image_message]
+    line_bot_api.reply_message(
+        event.reply_token,
+        messages=messages
+    )
 
-    image_name = f'shot{timestamp}.png'
+def _get_s3_image_url(image_name, timestamp):
+    image_name = f'line_{image_name}_{timestamp}.png'
     s3_client = boto3.client('s3')
     s3_image_url = s3_client.generate_presigned_url(
         ClientMethod = 'get_object',
@@ -233,21 +255,7 @@ def get_target_item(event):
         ExpiresIn = 600,
         HttpMethod = 'GET'
     )
-    print(f'URLは{s3_image_url}だあああああああああ')
-
-    message = TextSendMessage(text="購入確認します！")
-    image_message = ImageSendMessage(
-            original_content_url=s3_image_url,
-            preview_image_url=s3_image_url, #'https://my-bucket-ps5.s3-ap-northeast-1.amazonaws.com/proto3.png'
-        )
-    messages = [message, image_message]
-    line_bot_api.reply_message(
-        event.reply_token,
-        messages=messages
-    )
-
-
-
+    return s3_image_url
 
 if __name__ == "__main__":
     # debug環境（wsgirefサーバ）で動作させるときはこちらを使う
