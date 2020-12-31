@@ -143,13 +143,13 @@ class PurchaseClass:
             self._upload_screen_shot(driver, 'debug', timestamp)
             return '在庫不明です'
 
-        try:
-            self._amazon_login(driver)
-        except NoSuchElementException:
-            logger.warning('ログイン済の可能性があります！！！！')
-            url = 'https://www.amazon.co.jp/dp/B08GG247WR/ref=s9_acss_bw_cg_toio_md1_w?&me=AN1VRQENFRJN5&pf_rd_m=A3P5ROKL5A1OLE&pf_rd_s=merchandised-search-4&pf_rd_r=W83F5KPFR335M79YGQ4X&pf_rd_t=101&pf_rd_p=6cc9fda7-b07a-4770-bec3-ee1dff21047b&pf_rd_i=3355676051'
-            driver.get(url)
-        time.sleep(2)
+        # try:
+        #     self._amazon_login(driver)
+        # except NoSuchElementException:
+        #     logger.warning('ログイン済の可能性があります！！！！')
+        #     url = 'https://www.amazon.co.jp/dp/B08GG247WR/ref=s9_acss_bw_cg_toio_md1_w?&me=AN1VRQENFRJN5&pf_rd_m=A3P5ROKL5A1OLE&pf_rd_s=merchandised-search-4&pf_rd_r=W83F5KPFR335M79YGQ4X&pf_rd_t=101&pf_rd_p=6cc9fda7-b07a-4770-bec3-ee1dff21047b&pf_rd_i=3355676051'
+        #     driver.get(url)
+        # time.sleep(2)
 
         elem_login_btn = driver.find_element_by_id('add-to-cart-button')
         elem_login_btn.click()
