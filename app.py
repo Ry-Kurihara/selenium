@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from logging import error
 from time import time
+from botocore import args
 from flask import Flask, request, abort
 import os
 import pandas as pd 
@@ -203,7 +204,7 @@ def get_url_and_ask_time(event):
         schedule_seconds = int(event.message.text[9:])
         text_message = TextSendMessage(text='スケジューラを設定します')
 
-        sched.add_job(_start_search(schedule_seconds), 'interval', seconds=schedule_seconds)
+        sched.add_job(_start_search, 'interval', args=[25], seconds=schedule_seconds)
         sched.start()
 
         line_bot_api.reply_message(
