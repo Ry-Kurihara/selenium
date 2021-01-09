@@ -203,14 +203,22 @@ def get_url_and_ask_time(event):
     elif 'schedule_' in event.message.text:
         schedule_seconds = int(event.message.text[9:])
         text_message = TextSendMessage(text='スケジューラを設定します')
-
-        sched.add_job(_start_search, 'interval', args=[25], seconds=schedule_seconds)
+        sched.add_job(_start_search, 'interval', args=[schedule_seconds], seconds=schedule_seconds)
         sched.start()
 
         line_bot_api.reply_message(
             event.reply_token,
             messages=text_message
         )
+
+    elif 'sched_end' in event.message.text:
+        sched.shutdown()
+        text_message = TextSendMessage(text='スケジューラを終了します')
+        line_bot_api.reply_message(
+            event.reply_token,
+            messages=text_message
+        )
+
         
 
     elif 'captcha_is_' in event.message.text:
