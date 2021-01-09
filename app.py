@@ -7,7 +7,9 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 from lib import selen_autopurchase
-import boto3 
+import boto3
+
+from apscheduler.schedulers.blocking import BlockingScheduler
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -20,10 +22,10 @@ from linebot.models import (
     CarouselColumn, CarouselTemplate, ButtonsTemplate,
     PostbackAction, URIAction, MessageAction
 )
-
 from linebot.models.template import CarouselColumn, TemplateSendMessage
 
 app = Flask(__name__)
+sched = BlockingScheduler()
 
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
 YOUR_CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
@@ -196,6 +198,24 @@ def get_url_and_ask_time(event):
             event.reply_token,
             messages=messages
         )
+
+    elif 'schedule_' in event.message.text:
+        schedule_seconds = int(event.message.text[9:])
+        text_message = TextSendMessage(text='スケジューラを設定します')
+
+        @sched.scheduled_job('interval', seconds=schedule_seconds)
+        def start_search():
+            print(f'{schedule_seconds}秒で定期実行確認してますうううううううううう')
+            # options_with_env = selen_autopurchase.PurchaseClass()
+            # options_with_env.touch_captcha(captcha_string=captcha, timestamp=timestamp)
+
+        sched.start()
+        
+        line_bot_api.reply_message(
+            event.reply_token,
+            messages=text_message
+        )
+        
 
     elif 'captcha_is_' in event.message.text:
         captcha = event.message.text[11:]
