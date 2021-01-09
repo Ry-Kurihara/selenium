@@ -11,6 +11,7 @@ from lib import selen_autopurchase
 import boto3
 
 from apscheduler.schedulers.background import BackgroundScheduler
+import atexit 
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -212,7 +213,7 @@ def get_url_and_ask_time(event):
         )
 
     elif 'sched_end' in event.message.text:
-        sched.shutdown()
+        atexit.register(lambda: sched.shutdown())
         text_message = TextSendMessage(text='スケジューラを終了します')
         line_bot_api.reply_message(
             event.reply_token,
