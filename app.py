@@ -9,7 +9,7 @@ from sqlalchemy import create_engine
 from lib import selen_autopurchase
 import boto3
 
-from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -25,7 +25,7 @@ from linebot.models import (
 from linebot.models.template import CarouselColumn, TemplateSendMessage
 
 app = Flask(__name__)
-sched = BlockingScheduler()
+sched = BackgroundScheduler()
 
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
 YOUR_CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
@@ -203,14 +203,9 @@ def get_url_and_ask_time(event):
         schedule_seconds = int(event.message.text[9:])
         text_message = TextSendMessage(text='スケジューラを設定します')
 
-        @sched.scheduled_job('interval', seconds=schedule_seconds)
-        def start_search():
-            print(f'{schedule_seconds}秒で定期実行確認してますうううううううううう')
-            # options_with_env = selen_autopurchase.PurchaseClass()
-            # options_with_env.touch_captcha(captcha_string=captcha, timestamp=timestamp)
-
+        sched.add_job(_start_search(schedule_seconds), 'interval', seconds=schedule_seconds)
         sched.start()
-        
+
         line_bot_api.reply_message(
             event.reply_token,
             messages=text_message
@@ -276,6 +271,13 @@ def _get_s3_image_url(image_name, timestamp):
         HttpMethod = 'GET'
     )
     return s3_image_url
+
+def _start_search(schedule_seconds=30):
+    print(f'{schedule_seconds}秒で定期実行確認してますうううううううううう')
+    # options_with_env = selen_autopurchase.PurchaseClass()
+    # options_with_env.touch_captcha(captcha_string=captcha, timestamp=timestamp)
+
+
 
 if __name__ == "__main__":
     # debug環境（wsgirefサーバ）で動作させるときはこちらを使う
