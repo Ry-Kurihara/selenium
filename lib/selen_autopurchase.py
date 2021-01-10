@@ -102,7 +102,7 @@ class PurchaseClass:
 
         
 
-    def get_item(self, timestamp):
+    def get_item(self, item_url):
         # ブラウザの起動
         logger.info('起動します')
         driver = webdriver.Chrome(executable_path=self.DRIVER_PATH, chrome_options=self.options)
@@ -120,7 +120,7 @@ class PurchaseClass:
         # driver.refresh()
 
         # 商品ページにアクセスする
-        url = 'https://www.amazon.co.jp/dp/B08GG247WR/ref=s9_acss_bw_cg_toio_md1_w?&me=AN1VRQENFRJN5&pf_rd_m=A3P5ROKL5A1OLE&pf_rd_s=merchandised-search-4&pf_rd_r=W83F5KPFR335M79YGQ4X&pf_rd_t=101&pf_rd_p=6cc9fda7-b07a-4770-bec3-ee1dff21047b&pf_rd_i=3355676051'
+        url = item_url
         driver.get(url)
         time.sleep(1)
 
@@ -130,34 +130,54 @@ class PurchaseClass:
 
         # 在庫あり、入荷予定、在庫切れの3種類っぽい
         if '在庫あり' in availability:
-            logger.warning('在庫あったーーーーーー')
-            pass
+            logger.info('在庫を確認しました')
         elif '入荷予定' in availability:
-            logger.warning('入荷予定らしい')
+            logger.info('入荷予定です')
+            return 'scheduled_to_arrive'
         elif '在庫切れ' in availability:
-            logger.warning('在庫切れらしい')
-            self._upload_screen_shot(driver, 'debug', timestamp)
-            return '在庫切れでした'
+            logger.info('在庫切れです')
+            return 'out_of_stock'
         else:
-            logger.warning(f'該当なしです：availability is {availability} ですよ')
-            self._upload_screen_shot(driver, 'debug', timestamp)
-            return '在庫不明です'
-        
-        # try:
-        #     self._amazon_login(driver)
-        # except NoSuchElementException:
-        #     logger.warning('ログイン済の可能性があります！！！！')
-        #     url = 'https://www.amazon.co.jp/dp/B08GG247WR/ref=s9_acss_bw_cg_toio_md1_w?&me=AN1VRQENFRJN5&pf_rd_m=A3P5ROKL5A1OLE&pf_rd_s=merchandised-search-4&pf_rd_r=W83F5KPFR335M79YGQ4X&pf_rd_t=101&pf_rd_p=6cc9fda7-b07a-4770-bec3-ee1dff21047b&pf_rd_i=3355676051'
-        #     driver.get(url)
-        # time.sleep(2)
+            logger.info(f'others: availability is {availability} (@ _ @)')
+            return 'others'
 
+        # 在庫有りの場合のみこれ以降
         elem_login_btn = driver.find_element_by_id('add-to-cart-button')
         elem_login_btn.click()
         driver.get('https://amazon.co.jp/gp/cart/view.html/ref=nav_cart')
         time.sleep(1)
         
-        self._upload_screen_shot(driver, 'debug', timestamp)
+        self._upload_screen_shot(driver, 'debug', '777')
         return '商品をカートに入れました。購入確定しますか？'
+
+    def get_title_and_asin_from_url(self, timestamp, item_url):
+        # ブラウザの起動
+        logger.info('起動します')
+        driver = webdriver.Chrome(executable_path=self.DRIVER_PATH, chrome_options=self.options)
+        time.sleep(1)
+
+        # amazonにアクセスする
+        amazon_url = 'https://www.amazon.co.jp/'
+        driver.get(amazon_url)
+
+        # cookieを読み込む
+        cookies = self._return_checked_cookies()
+        for cookie in cookies:
+            driver.add_cookie(cookie)
+
+        # driver.refresh()
+
+        # 商品ページにアクセスする
+        url = item_url
+        driver.get(url)
+        time.sleep(1)
+
+        product_title = driver.find_element_by_id('productTitle')
+        # できればASINも
+        self._upload_screen_shot(driver, 'get_title', timestamp)
+
+        return product_title
+
 
     def debug_screenshot(self, timestamp):
         # ブラウザの起動

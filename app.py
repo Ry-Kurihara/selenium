@@ -201,6 +201,26 @@ def get_url_and_ask_time(event):
             messages=messages
         )
 
+    elif 'debug_url_' in event.message.text:
+        item_url = event.message.text[10:]
+        timestamp = str(event.timestamp)
+        purchaser = selen_autopurchase.PurchaseClass()
+        product_title = purchaser.get_title_and_asin_from_url(timestamp, item_url)
+        s3_image_url = _get_s3_image_url('get_title', timestamp)
+
+        schedule_list = ["30", "60", "120", "240"]
+        items = [QuickReplyButton(action=MessageAction(label=f"{schedule}秒間隔で監視する", text=f"schedule_{schedule}")) for schedule in schedule_list]
+        text_message = TextSendMessage(text=f"商品名：{product_title}を購入します", quick_reply=QuickReply(items=items))
+        image_message = ImageSendMessage(
+                original_content_url=s3_image_url,
+                preview_image_url=s3_image_url, 
+            )
+        messages = [text_message, image_message]
+        line_bot_api.reply_message(
+            event.reply_token,
+            messages=messages
+        )
+
     elif 'schedule_' in event.message.text:
         schedule_seconds = int(event.message.text[9:])
         text_message = TextSendMessage(text='スケジューラを設定します')
@@ -282,10 +302,14 @@ def _get_s3_image_url(image_name, timestamp):
     )
     return s3_image_url
 
-def _start_search(schedule_seconds=30):
+def _start_search(schedule_seconds=30, url='ff'):
     print(f'{schedule_seconds}秒で定期実行確認してますうううううううううう')
-    # options_with_env = selen_autopurchase.PurchaseClass()
-    # options_with_env.touch_captcha(captcha_string=captcha, timestamp=timestamp)
+    purchaser = selen_autopurchase.PurchaseClass()
+    item_status = purchaser.get_item(url)
+    if 'カートに入れました' in item_status:
+        return item_status
+
+
 
 
 
