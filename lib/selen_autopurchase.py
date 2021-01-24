@@ -17,8 +17,29 @@ import boto3
 import time  
 import pickle
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+def setup_logger(name, logfile='LOGFILENAME.txt'):
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.DEBUG)
+
+    # create file handler which logs even DEBUG messages
+    fh = logging.FileHandler(logfile, encoding='utf-8')
+    fh.setLevel(logging.DEBUG)
+    fh_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(filename)s - %(name)s - %(funcName)s - %(message)s')
+    fh.setFormatter(fh_formatter)
+
+    # create console handler with a INFO log level
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.INFO)
+    ch_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', '%Y-%m-%d %H:%M:%S')
+    ch.setFormatter(ch_formatter)
+
+    # add the handlers to the logger
+    logger.addHandler(fh)
+    logger.addHandler(ch)
+    return logger
+
+logger = setup_logger(__name__)
+
 
 class SeleniumMainError(Exception):
     """Selenium関連のエラー基底クラス"""
@@ -49,7 +70,7 @@ class PurchaseClass:
             self.options.add_argument('--headless');
         else:
             # TODO: あとでエラーと同時に文字列出力する
-            logger.warning('環境を設定してください！')
+            logger.warning('please_set_environment!！')
             raise SeleniumMainError
 
 
@@ -100,11 +121,31 @@ class PurchaseClass:
         # cookieの送信
         self._upload_pkl_cookies(driver, 'captcha_new.pickle')
 
-        
+    def _check_availability(self, availability):
+        if '在庫あり' in availability:
+            logger.info('in_stock')
+            return True
+        elif '入荷予定' in availability:
+            logger.info('scheduled_to_arrive')
+        elif '在庫切れ' in availability:
+            logger.info('out_of_stock')
+        elif '現在お取り扱いできません' in availability:
+            logger.info('cant_purchase')
+        else:
+            logger.warning(f'others: availability is {availability} (@ _ @)')
+        return False 
+
+    def _check_merchant(self, merchant_info, target_merchant):
+        shop = merchant_info.split('が販売')[0].split('この商品は')[1]
+        logger.info(f'shop_is_{shop}_!!!!!')
+        if target_merchant in shop:
+            return True 
+        return False 
+
 
     def get_item(self, item_url):
         # ブラウザの起動
-        logger.info('起動します')
+        logger.info('getting_started_get_item!')
         driver = webdriver.Chrome(executable_path=self.DRIVER_PATH, chrome_options=self.options)
         time.sleep(1)
 
@@ -128,31 +169,30 @@ class PurchaseClass:
         element = driver.find_element_by_css_selector(selector)
         availability = element.text
 
-        # 在庫あり、入荷予定、在庫切れの3種類っぽい
-        if '在庫あり' in availability:
-            logger.info('在庫を確認しました')
-        elif '入荷予定' in availability:
-            logger.info('入荷予定です')
-            return 'scheduled_to_arrive'
-        elif '在庫切れ' in availability:
-            logger.info('在庫切れです')
-            return 'out_of_stock'
-        else:
-            logger.info(f'others: availability is {availability} (@ _ @)')
-            return 'others'
+        if not self._check_availability(availability):
+            return None 
 
-        # 在庫有りの場合のみこれ以降
-        elem_login_btn = driver.find_element_by_id('add-to-cart-button')
-        elem_login_btn.click()
+        merchant_info = driver.find_element_by_id('merchant-info').text 
+        if not self._check_merchant(merchant_info, 'Amazon.co.jp'):
+            return None 
+
+
+        # 購入
+        driver.find_element_by_id('add-to-cart-button').click()
         driver.get('https://amazon.co.jp/gp/cart/view.html/ref=nav_cart')
         time.sleep(1)
+
+        driver.find_element_by_name('proceedToRetailCheckout').click()
+
+        self._upload_screen_shot(driver, 'cart', 'product_name')
+        logger.info(f'just_before_purchase!！')
+        return True
+        # driver.find_element_by_name('placeYourOrder1').click()
         
-        self._upload_screen_shot(driver, 'debug', '777')
-        return '商品をカートに入れました。購入確定しますか？'
 
     def get_title_and_asin_from_url(self, timestamp, item_url):
         # ブラウザの起動
-        logger.info('起動します')
+        logger.info('started_get_title_and_asin_from_url')
         driver = webdriver.Chrome(executable_path=self.DRIVER_PATH, chrome_options=self.options)
         time.sleep(1)
 
@@ -172,76 +212,36 @@ class PurchaseClass:
         driver.get(url)
         time.sleep(1)
 
-        product_title = driver.find_element_by_id('productTitle')
+        product_title = driver.find_element_by_id('productTitle').text
         # できればASINも
         self._upload_screen_shot(driver, 'get_title', timestamp)
 
         return product_title
 
 
-    def debug_screenshot(self, timestamp):
-        # ブラウザの起動
-        logger.info('debug起動します')
-        driver = webdriver.Chrome(executable_path=self.DRIVER_PATH, chrome_options=self.options)
-        time.sleep(1)
-
-        # Googleにアクセスする
-        url = 'https://google.com/'
-        driver.get(url)
-        time.sleep(1)
-
-        # カマグチと検索
-        search_bar = driver.find_element_by_name('q')
-        search_bar.send_keys("カマグチ")
-        search_bar.submit()
-
-        # スクショを取ります
-        self._upload_screen_shot(driver, 'debug', timestamp)
-
-
-    def touch_captcha(self, captcha_string, timestamp):
-        s3 = boto3.resource('s3')
-
-        pkl_name = 'captcha.pickle'
-        s3.Bucket('my-bucket-ps5').download_file(pkl_name, pkl_name)
-        with open(pkl_name, 'rb') as f:
-            cookies = pickle.load(f)
+    # 画像認証が出てきた場合のcookie保存
+    def get_auth_info_for_img_captcha(self, timestamp, user_id):
         driver = webdriver.Chrome(executable_path=self.DRIVER_PATH, chrome_options=self.options)
         amazon_url = 'https://www.amazon.co.jp/'
         driver.get(amazon_url)
 
-        for cookie in cookies:
-            driver.add_cookie(cookie)
-
-        driver.refresh()
-        print('captchaリフレッシュ後')
-
-        # スクリーンショットの保存
-        image_name = f'link_pre{timestamp}.png'
-        driver.save_screenshot(image_name)
-        s3_resorce = boto3.resource('s3')
-        s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
-
+        # ログイン
         driver.find_element_by_xpath("//a[@id='nav-link-accountList']/span").click()
         driver.find_element_by_id('ap_email').send_keys(os.environ['AMAZON_EMAIL'])
         driver.find_element_by_id('continue').click()
         driver.find_element_by_id('ap_password').send_keys(os.environ['AMAZON_PASS'])
         driver.find_element_by_id('signInSubmit').click()
-        time.sleep(2)
+        time.sleep(1)
 
-        # スクリーンショットの保存
-        image_name = f'link_after{timestamp}.png'
-        driver.save_screenshot(image_name)
-        s3_resorce = boto3.resource('s3')
-        s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
+        self._upload_screen_shot(driver, 'auth_img_before', timestamp)
 
+        # 画像認証が出てくるはず  TODO: 本当はinputじゃなくてLINEから認証画像を見て入力したい
         driver.find_element_by_id('ap_password').send_keys(os.environ['AMAZON_PASS'])
-        driver.find_element_by_id('auth-captcha-guess').send_keys(captcha_string)
+        driver.find_element_by_id('auth-captcha-guess').send_keys(input('please input character strings that displayed in the image: '))
+        time.sleep(1)
+        self._upload_screen_shot(driver, 'auth_img_after', timestamp)
         driver.find_element_by_id('signInSubmit').click()
-        time.sleep(2)
+        time.sleep(1)
 
-        # スクリーンショットの保存
-        image_name = f'captcha{timestamp}.png'
-        driver.save_screenshot(image_name)
-        s3_resorce = boto3.resource('s3')
-        s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
+        # cookieの送信
+        self._upload_pkl_cookies(driver, f'captcha_cookie_{user_id}.pickle')

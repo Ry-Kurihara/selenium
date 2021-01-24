@@ -26,6 +26,15 @@ from linebot.models import (
 )
 from linebot.models.template import CarouselColumn, TemplateSendMessage
 
+try:
+    from dotenv import load_dotenv 
+    load_dotenv()
+except ImportError:
+    pass 
+
+import logging
+logger = logging.getLogger("selen_autopurchase").getChild(__name__)
+
 app = Flask(__name__)
 sched = BackgroundScheduler()
 
@@ -36,9 +45,8 @@ HEROKU_POSTGRES_URL = os.environ["HEROKU_POSTGRES_URL"]
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
-@app.route("/")
-def hello_world():
-    return "LINE API HOME!"
+# flask自体の動作は別ファイルに
+from flask_data import app
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -57,92 +65,19 @@ def callback():
 
     return 'OK'
 
-@handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.message.text)
-    )
-
-# クイックリプライ実践：下に書いたほうに上書きされる
-@handler.add(MessageEvent, message=TextMessage)
-def response_massage(event):
-    language_list = ["Ruby", "Python", "PHP"]
-    items = [QuickReplyButton(action=MessageAction(label=f"{langage}", text=f"{langage}だ")) for langage in language_list]
-    messages = TextSendMessage(text="なんの言語？", quick_reply=QuickReply(items=items))
-    print("クイックリプライ作動")
-    line_bot_api.reply_message(
-        event.reply_token,
-        messages = messages 
-    )
-
-# カルーセルテンプレート実践
-@handler.add(MessageEvent, message=TextMessage)
-def response_carousel(event):
-    carousel_template_message = TemplateSendMessage(
-        alt_text="not_data",
-        template=CarouselTemplate(
-            columns=[
-                CarouselColumn(
-                    thumbnail_image_url='https://example.com/item1.jpg',
-                    title='this_is',
-                    text='description1',
-                    actions=[
-                        PostbackAction(
-                        label='postback1',
-                        display_text='postback text1',
-                        data='action=buy&itemid=1'
-                        ),
-                        MessageAction(
-                            label='message1',
-                            text='message text1'
-                        ),
-                        URIAction(
-                            label='uri1',
-                            uri='http://example.com/1'
-                        )
-                    ]
-                ),
-                CarouselColumn(
-                    thumbnail_image_url='https://example.com/item2.jpg',
-                    title='this is menu2',
-                    text='description2',
-                    actions=[
-                        PostbackAction(
-                            label='postback2',
-                            display_text='postback text2',
-                            data='action=buy&itemid=2'
-                        ),
-                        MessageAction(
-                            label='message2',
-                            text='message text2'
-                        ),
-                        URIAction(
-                            label='uri2',
-                            uri='http://example.com/2'
-                        )
-                    ]
-                )
-            ]
-        )
-    )
-    line_bot_api.reply_message(
-        event.reply_token,
-        messages=carousel_template_message
-    )
 
 # URLのキャッチ、監視時間の設定を聞く
 @handler.add(MessageEvent, message=TextMessage)
 def get_url_and_ask_time(event):
-    engine = create_engine(HEROKU_POSTGRES_URL)
-
     user_id = str(event.source.user_id)
     timestamp = str(event.timestamp)
     message = event.message.text 
 
+    engine = create_engine(HEROKU_POSTGRES_URL)
     df = pd.DataFrame(data=[[user_id, timestamp, message]], columns=['user_id', 'timestamp', 'message'])
     df.to_sql('line_autopurchase', con=engine, if_exists='append', index=False)
 
+    # TODO: event.message.textをmessageに変える
     if 'Amazonで購入' in event.message.text:
         messages = TextSendMessage(text='URLを入力してください')
         line_bot_api.reply_message(
@@ -150,70 +85,22 @@ def get_url_and_ask_time(event):
             messages=messages
         )
 
-    elif 'asin_is:' in event.message.text:
-        asin = event.message.text[8:] # asin_isはいらない
-        image_url = f'https://images-na.ssl-images-amazon.com/images/P/{asin}.09.THUMBZZZ.jpg'
-        buttons_message = TemplateSendMessage(
-            alt_text='画像が表示できません',
-            template=ButtonsTemplate(
-                thumbnail_image_url=image_url,
-                title='Is_it?',
-                text='we purchase this. OKEEEEEEY??',
-                actions=[ 
-                    PostbackAction(
-                        label='購入します',
-                        display_text='購入します',
-                        data='itempurchase'
-                    ),
-                    MessageAction(
-                        label='買わない',
-                        text='買わないよ'
-                    ),
-                ]
-            )
-        )
-        line_bot_api.reply_message(
-            event.reply_token,
-            messages=buttons_message
-        )
-
-    elif '買わないよ' in event.message.text:
-        messages = TextSendMessage(text='そうですか')
-        line_bot_api.reply_message(
-            event.reply_token,
-            messages=messages
-        )
-
-    elif 'debug_okama' in event.message.text:
-        timestamp = str(event.timestamp)
-        ins = selen_autopurchase.PurchaseClass()
-        ins.debug_screenshot(timestamp)
-        s3_image_url = _get_s3_image_url('debug', timestamp)
-
-        message = TextSendMessage(text="検索結果を表示するよ")
-        image_message = ImageSendMessage(
-                original_content_url=s3_image_url,
-                preview_image_url=s3_image_url, 
-            )
-        messages = [message, image_message]
-        line_bot_api.reply_message(
-            event.reply_token,
-            messages=messages
-        )
-
-    elif 'debug_url_' in event.message.text:
-        item_url = event.message.text[10:]
-        timestamp = str(event.timestamp)
+    elif 'https://www.amazon.co.jp' in event.message.text:
+        item_url = message
         purchaser = selen_autopurchase.PurchaseClass()
         product_title = purchaser.get_title_and_asin_from_url(timestamp, item_url)
         s3_image_url = _get_s3_image_url('get_title', timestamp)
-
         schedule_list = ["30", "60", "120", "240"]
         items = [QuickReplyButton(action=MessageAction(label=f"{schedule}秒間隔で監視する", text=f"schedule_{schedule}")) for schedule in schedule_list]
-        text_message = TextSendMessage(text=f"商品名：{product_title}を購入します", quick_reply=QuickReply(items=items))
+
+        df = pd.DataFrame(data=[[user_id, timestamp, item_url, product_title]], columns=['user_id', 'timestamp', 'item_url', 'product_title'])
+        df.to_sql('line_purchase_list', con=engine, if_exists='append', index=False)
+
+        text_message = TextSendMessage(text=f"商品名：{product_title}を監視します")
         image_message = ImageSendMessage(
                 original_content_url=s3_image_url,
                 preview_image_url=s3_image_url, 
+                quick_reply=QuickReply(items=items),
             )
         messages = [text_message, image_message]
         line_bot_api.reply_message(
@@ -223,8 +110,11 @@ def get_url_and_ask_time(event):
 
     elif 'schedule_' in event.message.text:
         schedule_seconds = int(event.message.text[9:])
-        text_message = TextSendMessage(text='スケジューラを設定します')
-        sched.add_job(_start_search, 'interval', args=[schedule_seconds], seconds=schedule_seconds)
+        df = pd.read_sql(sql=f"SELECT * from line_purchase_list WHERE user_id='{user_id}' ORDER BY CAST(timestamp AS BIGINT) DESC", con=engine)
+        product_title = df.at[0, 'product_title']
+        product_url = df.at[0, 'item_url']
+        text_message = TextSendMessage(text=f'{product_title}のスケジューラを{schedule_seconds}秒間隔で設定します')
+        sched.add_job(_start_search, 'interval', args=[schedule_seconds, product_url], seconds=schedule_seconds)
         sched.start()
 
         line_bot_api.reply_message(
@@ -233,35 +123,31 @@ def get_url_and_ask_time(event):
         )
 
     elif 'sched_end' in event.message.text:
-        atexit.register(lambda: sched.shutdown())
-        text_message = TextSendMessage(text='スケジューラを終了します')
+        sched.shutdown()
+        text_message = TextSendMessage(text='スケジューラを終了しました')
         line_bot_api.reply_message(
             event.reply_token,
             messages=text_message
         )
 
-        
+    # TODO: 通るか確認
+    elif 'get_cookie' in event.message.text:
+        purchaser = selen_autopurchase.PurchaseClass()
 
-    elif 'captcha_is_' in event.message.text:
-        captcha = event.message.text[11:]
-        timestamp = str(event.timestamp)
-        options_with_env = selen_autopurchase.PurchaseClass()
-        options_with_env.touch_captcha(captcha_string=captcha, timestamp=timestamp)
+        purchaser.get_auth_info_for_img_captcha(timestamp, user_id)
+        s3_image_url_before = _get_s3_image_url('auth_img_before', timestamp)
+        s3_image_url_after = _get_s3_image_url('auth_img_after', timestamp)
 
-        image_name = f'captcha{timestamp}.png'
-        s3_client = boto3.client('s3')
-        s3_image_url = s3_client.generate_presigned_url(
-            ClientMethod = 'get_object',
-            Params = {'Bucket': 'my-bucket-ps5', 'Key': image_name},
-            ExpiresIn = 600,
-            HttpMethod = 'GET'
-        )
-        message = TextSendMessage(text="認証突破したか？？！")
-        image_message = ImageSendMessage(
-                original_content_url=s3_image_url,
-                preview_image_url=s3_image_url, 
+        text_message = TextSendMessage(text="認証情報付きcookieをデータベースに送信しました")
+        image_message1 = ImageSendMessage(
+                original_content_url=s3_image_url_before,
+                preview_image_url=s3_image_url_before, 
             )
-        messages = [message, image_message]
+        image_message2 = ImageSendMessage(
+                original_content_url=s3_image_url_after,
+                preview_image_url=s3_image_url_after, 
+            )
+        messages = [text_message, image_message1]
         line_bot_api.reply_message(
             event.reply_token,
             messages=messages
@@ -291,6 +177,11 @@ def get_target_item(event):
         messages=messages
     )
 
+"""
+ファイル内関数
+
+"""
+
 def _get_s3_image_url(image_name, timestamp):
     image_name = f'line_{image_name}_{timestamp}.png'
     s3_client = boto3.client('s3')
@@ -302,16 +193,18 @@ def _get_s3_image_url(image_name, timestamp):
     )
     return s3_image_url
 
-def _start_search(schedule_seconds=30, url='ff'):
-    print(f'{schedule_seconds}秒で定期実行確認してますうううううううううう')
+def _start_search(schedule_seconds, url):
+    logger.info(f'we_try_to_purchase_by_{schedule_seconds}_seconds!!')
     purchaser = selen_autopurchase.PurchaseClass()
-    item_status = purchaser.get_item(url)
-    if 'カートに入れました' in item_status:
-        return item_status
+    status = purchaser.get_item(url)
+    if status:
+        logger.info('got_it_over!!!!')
+        # TODO: スケジューラ停止処理を書く
 
+"""
+実行部
 
-
-
+"""
 
 if __name__ == "__main__":
     # debug環境（wsgirefサーバ）で動作させるときはこちらを使う
