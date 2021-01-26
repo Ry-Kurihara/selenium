@@ -4,7 +4,8 @@ from time import time
 from botocore import args
 from flask import Flask, request, abort
 import os
-import pandas as pd 
+import pandas as pd
+from pytz import timezone
 from sqlalchemy import create_engine
 
 from lib import selen_autopurchase
@@ -27,7 +28,7 @@ from linebot.models import (
 from linebot.models.template import CarouselColumn, TemplateSendMessage
 
 try:
-    from dotenv import load_dotenv 
+    from dotenv import load_dotenv
     load_dotenv()
 except ImportError:
     pass 
@@ -35,8 +36,7 @@ except ImportError:
 import logging
 logger = logging.getLogger("selen_autopurchase").getChild(__name__)
 
-app = Flask(__name__)
-sched = BackgroundScheduler()
+sched = BackgroundScheduler(timezone=timezone('Asia/Tokyo'))
 
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
 YOUR_CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
