@@ -46,7 +46,9 @@ line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 # flask自体の動作は別ファイルに
-from flask_data import app
+from flask_data import create_app
+
+app = create_app()
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -64,7 +66,6 @@ def callback():
         abort(400)
 
     return 'OK'
-
 
 # URLのキャッチ、監視時間の設定を聞く
 @handler.add(MessageEvent, message=TextMessage)
