@@ -1,5 +1,4 @@
 from flask import Flask
-from flask.helpers import url_for 
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -16,5 +15,8 @@ def create_app(test_config=None):
     from flask_data.views.entries import entry
     app.register_blueprint(entry, url_prefix='/users')
     app.register_blueprint(view, url_prefix='/users')
+
+    from flask_line_api.line import line 
+    app.register_blueprint(line)
 
     return app 

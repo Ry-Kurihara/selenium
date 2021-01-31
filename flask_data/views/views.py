@@ -16,6 +16,7 @@ def login_required(view):
 @view.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
+    print(request.method)
     if request.method == 'POST':
         if request.form['username'] != app.config['USERNAME']:
             flash('ユーザ名が異なります')
