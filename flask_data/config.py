@@ -1,11 +1,10 @@
 import os 
-try:
-    from dotenv import load_dotenv
-    load_dotenv()
-except ImportError:
-    pass 
+import sys
 
-SQLALCHEMY_DATABASE_URI = os.environ["HEROKU_POSTGRES_URL"]
+sys.path.append(os.path.join(os.path.dirname(__file__), '../my_lib'))
+import param_store as ps
+
+SQLALCHEMY_DATABASE_URI = ps.get_parameters('/heroku/postgres_url')
 SQLALCHEMY_TRACK_MODIFICATIONS = True 
 
 DEBUG = True

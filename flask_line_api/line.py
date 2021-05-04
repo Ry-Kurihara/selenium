@@ -25,20 +25,18 @@ from linebot.models import (
     PostbackAction, URIAction, MessageAction
 )
 
-try:
-    from dotenv import load_dotenv
-    load_dotenv()
-except ImportError:
-    pass 
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '../my_lib'))
+import param_store as ps
 
 import logging
 logger = logging.getLogger("selen_autopurchase").getChild(__name__)
 
 sched = BackgroundScheduler(timezone=timezone('Asia/Tokyo'))
 
-YOUR_CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
-YOUR_CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
-HEROKU_POSTGRES_URL = os.environ["HEROKU_POSTGRES_URL"]
+YOUR_CHANNEL_ACCESS_TOKEN = ps.get_parameters('/line/message_api/line_channel_access_token')
+YOUR_CHANNEL_SECRET = ps.get_parameters('/line/message_api/line_channel_secret')
+HEROKU_POSTGRES_URL = ps.get_parameters('/heroku/postgres_url')
 
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
