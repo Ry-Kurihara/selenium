@@ -30,7 +30,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../my_lib'))
 import param_store as ps
 
 import logging
-logger = logging.getLogger("selen_autopurchase").getChild(__name__)
+logger = logging.getLogger('app.flask').getChild(__name__)
 
 sched = BackgroundScheduler(timezone=timezone('Asia/Tokyo'))
 

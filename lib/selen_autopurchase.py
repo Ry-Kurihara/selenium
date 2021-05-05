@@ -21,29 +21,7 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '../my_lib'))
 import param_store as ps
 
-def setup_logger(name, logfile='LOGFILENAME.txt'):
-    logger = logging.getLogger(name)
-    logger.setLevel(logging.DEBUG)
-
-    # create file handler which logs even DEBUG messages
-    fh = logging.FileHandler(logfile, encoding='utf-8')
-    fh.setLevel(logging.DEBUG)
-    fh_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(filename)s - %(name)s - %(funcName)s - %(message)s')
-    fh.setFormatter(fh_formatter)
-
-    # create console handler with a INFO log level
-    ch = logging.StreamHandler()
-    ch.setLevel(logging.INFO)
-    ch_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', '%Y-%m-%d %H:%M:%S')
-    ch.setFormatter(ch_formatter)
-
-    # add the handlers to the logger
-    logger.addHandler(fh)
-    logger.addHandler(ch)
-    return logger
-
-logger = setup_logger(__name__)
-
+logger = logging.getLogger('app.flask').getChild(__name__)
 
 class SeleniumMainError(Exception):
     """Selenium関連のエラー基底クラス"""
