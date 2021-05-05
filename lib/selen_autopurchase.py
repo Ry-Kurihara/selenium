@@ -17,6 +17,10 @@ import boto3
 import time  
 import pickle
 
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '../my_lib'))
+import param_store as ps
+
 def setup_logger(name, logfile='LOGFILENAME.txt'):
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)
@@ -61,9 +65,9 @@ class PurchaseClass:
         # self.options.add_argument('--profile-directory=profile')
 
         # ※herokuなどの本番環境でヘッドレスモードを使用する
-        env = os.environ['APP_ENV']
+        env = ps.get_parameters('app_env')
         if env == 'mywin':
-            self.DRIVER_PATH = '/Users/ryzerk/develop/python/selenium/chromedriver'
+            self.DRIVER_PATH = '/Users/r_kurihara/Documents/local/bin/chromedriver'
             self.options.add_argument('--headless'); # たまにヘッドレスモードで確認したい
         elif env == 'heroku':
             self.DRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
@@ -104,9 +108,9 @@ class PurchaseClass:
 
     def _amazon_login(self, driver):
         driver.find_element_by_xpath("//a[@id='nav-link-accountList']/span").click()
-        driver.find_element_by_id('ap_email').send_keys(os.environ['AMAZON_EMAIL'])
+        driver.find_element_by_id('ap_email').send_keys(ps.get_parameters('/amazon/shop/email'))
         driver.find_element_by_id('continue').click()
-        driver.find_element_by_id('ap_password').send_keys(os.environ['AMAZON_PASS'])
+        driver.find_element_by_id('ap_password').send_keys(ps.get_parameters('/amazon/shop/pass'))
         driver.find_element_by_id('signInSubmit').click()
         return None
 
@@ -114,7 +118,7 @@ class PurchaseClass:
         # 文字認証画面ではないならNosuchElementError
         driver.find_element_by_id('auth-captcha-guess')
 
-        driver.find_element_by_id('ap_password').send_keys(os.environ['AMAZON_PASS'])
+        driver.find_element_by_id('ap_password').send_keys(ps.get_parameters('/amazon/shop/pass'))
         driver.find_element_by_id('auth-captcha-guess').send_keys(input())
         driver.find_element_by_id('signInSubmit').click()
 
@@ -227,16 +231,16 @@ class PurchaseClass:
 
         # ログイン
         driver.find_element_by_xpath("//a[@id='nav-link-accountList']/span").click()
-        driver.find_element_by_id('ap_email').send_keys(os.environ['AMAZON_EMAIL'])
+        driver.find_element_by_id('ap_email').send_keys(ps.get_parameters('/amazon/shop/email'))
         driver.find_element_by_id('continue').click()
-        driver.find_element_by_id('ap_password').send_keys(os.environ['AMAZON_PASS'])
+        driver.find_element_by_id('ap_password').send_keys(ps.get_parameters('/amazon/shop/pass'))
         driver.find_element_by_id('signInSubmit').click()
         time.sleep(1)
 
         self._upload_screen_shot(driver, 'auth_img_before', timestamp)
 
         # 画像認証が出てくるはず  TODO: 本当はinputじゃなくてLINEから認証画像を見て入力したい
-        driver.find_element_by_id('ap_password').send_keys(os.environ['AMAZON_PASS'])
+        driver.find_element_by_id('ap_password').send_keys(ps.get_parameters('/amazon/shop/pass'))
         driver.find_element_by_id('auth-captcha-guess').send_keys(input('please input character strings that displayed in the image: '))
         time.sleep(1)
         self._upload_screen_shot(driver, 'auth_img_after', timestamp)

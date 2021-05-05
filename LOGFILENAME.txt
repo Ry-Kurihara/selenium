@@ -16,3 +16,26 @@
 2021-01-31 15:26:27,210 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
 2021-01-31 15:27:53,402 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_item - getting_started_get_item!
 2021-01-31 15:28:03,633 - WARNING - selen_autopurchase.py - lib.selen_autopurchase - _check_availability - others: availability is 出品者からお求めいただけます。 在庫状況について (@ _ @)
+2021-05-05 03:36:19,897 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 03:36:58,809 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 03:42:14,151 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 03:42:49,727 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 03:43:46,891 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 03:44:34,174 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 03:44:34,175 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - アクセスしてます
+2021-05-05 03:52:10,139 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 04:20:22,622 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 04:21:13,447 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 04:23:19,546 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 04:24:11,078 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 11:39:08,122 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 11:41:44,419 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-05 11:41:56,670 - WARNING - selen_autopurchase.py - lib.selen_autopurchase - _check_availability - others: availability is 残り1点 ご注文はお早めに 在庫状況について (@ _ @)
+2021-05-05 11:42:44,412 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-05 11:42:57,112 - WARNING - selen_autopurchase.py - lib.selen_autopurchase - _check_availability - others: availability is 残り1点 ご注文はお早めに 在庫状況について (@ _ @)
+2021-05-05 11:43:44,413 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-05 11:43:56,596 - WARNING - selen_autopurchase.py - lib.selen_autopurchase - _check_availability - others: availability is 残り1点 ご注文はお早めに 在庫状況について (@ _ @)
+2021-05-05 11:44:44,436 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-05 11:44:56,569 - WARNING - selen_autopurchase.py - lib.selen_autopurchase - _check_availability - others: availability is 残り1点 ご注文はお早めに 在庫状況について (@ _ @)
+2021-05-05 11:45:44,515 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-05 11:45:57,198 - WARNING - selen_autopurchase.py - lib.selen_autopurchase - _check_availability - others: availability is 残り1点 ご注文はお早めに 在庫状況について (@ _ @)
