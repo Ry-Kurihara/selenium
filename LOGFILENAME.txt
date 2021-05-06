@@ -43,3 +43,7 @@
 2021-05-05 23:03:22,361 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_60_seconds!!
 2021-05-05 23:03:22,507 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
 2021-05-05 23:03:35,092 - WARNING - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _check_availability - others: availability is 残り13点 ご注文はお早めに 在庫状況について (@ _ @)
+2021-05-05 23:16:30,400 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-07 03:28:34,051 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-07 03:29:21,149 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-07 03:52:36,245 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url

@@ -178,8 +178,8 @@ def get_target_item(event):
 
 """
 
-def _get_s3_image_url(image_name, timestamp):
-    image_name = f'line_{image_name}_{timestamp}.png'
+def _get_s3_image_url(image_name, timestamp, folder_name='created_image_file'):
+    image_name = f'{folder_name}/line_{image_name}_{timestamp}.png'
     s3_client = boto3.client('s3')
     s3_image_url = s3_client.generate_presigned_url(
         ClientMethod = 'get_object',

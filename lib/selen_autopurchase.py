@@ -80,7 +80,7 @@ class PurchaseClass:
 
     def _upload_screen_shot(self, driver, image_name, timestamp):
         s3_resorce = boto3.resource('s3')
-        image_name = f'line_{image_name}_{timestamp}.png'
+        image_name = f'created_image_file/line_{image_name}_{timestamp}.png'
         driver.save_screenshot(image_name)
         s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
 
