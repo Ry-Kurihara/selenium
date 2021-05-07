@@ -7,7 +7,7 @@ from flask import current_app as app
 
 entry = Blueprint('entry', __name__)
 
-@entry.route('/')
+@entry.route('/entries/top')
 @login_required
 def show_entries():
     entries = Entry.query.order_by(Entry.id.desc()).all()

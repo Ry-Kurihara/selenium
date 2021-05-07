@@ -13,6 +13,10 @@ def login_required(view):
         return view(*args, **kwargs)
     return inner
 
+@view.route('/')
+def display_top_page():
+    return render_template('top.html')
+
 @view.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
