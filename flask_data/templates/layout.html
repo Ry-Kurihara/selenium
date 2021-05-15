@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 
-{<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -56,7 +56,7 @@ href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&displ
         {% if not session.logged_in %}
             <a class="nav-link active" aria-current="page" href="{{ url_for('view.login') }}">Login</a>
         {% else %}
-            <a class="nav-link active" aria-current="page" href="{{ url_for('view.login') }}">Logined</a>
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Logined</a>
         {% endif %}
         </li>
         <li class="nav-item">
@@ -83,11 +83,6 @@ href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&displ
               <a class="dropdown-item" href="#">Something else here</a>
             </li>
           </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"
-            >Disabled</a
-          >
         </li>
       </ul>
       <!-- Left links -->

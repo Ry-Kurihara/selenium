@@ -103,7 +103,7 @@ class PurchaseClass:
         # cookieの送信
         self._upload_pkl_cookies(driver, 'captcha_new.pickle')
 
-    def _check_availability(self, availability):
+    def _is_availabile(self, availability):
         if '在庫あり' in availability:
             logger.info('in_stock')
             return True
@@ -117,7 +117,7 @@ class PurchaseClass:
             logger.warning(f'others: availability is {availability} (@ _ @)')
         return False 
 
-    def _check_merchant(self, merchant_info, target_merchant):
+    def _is_correct_merchant(self, merchant_info, target_merchant):
         shop = merchant_info.split('が販売')[0].split('この商品は')[1]
         logger.info(f'shop_is_{shop}_!!!!!')
         if target_merchant in shop:
@@ -151,12 +151,12 @@ class PurchaseClass:
         element = driver.find_element_by_css_selector(selector)
         availability = element.text
 
-        if not self._check_availability(availability):
+        if not self._is_availabile(availability):
             return None 
 
-        merchant_info = driver.find_element_by_id('merchant-info').text 
-        if not self._check_merchant(merchant_info, 'Amazon.co.jp'):
-            return None 
+        # merchant_info = driver.find_element_by_id('merchant-info').text 
+        # if not self._is_correct_merchant(merchant_info, 'Amazon.co.jp'):
+        #     return None 
 
 
         # 購入
@@ -165,6 +165,7 @@ class PurchaseClass:
         time.sleep(1)
 
         driver.find_element_by_name('proceedToRetailCheckout').click()
+        time.sleep(1)
 
         self._upload_screen_shot(driver, 'cart', 'product_name')
         logger.info(f'just_before_purchase!！')

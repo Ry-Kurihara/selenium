@@ -26,10 +26,13 @@ def login():
             flash('ユーザ名が異なります')
         elif request.form['password'] != app.config['PASSWORD']:
             flash('パスワードが異なります')
+        elif request.form['user_id'] != app.config['USER_ID']:
+            flash('ユーザIDが異なります')
         else:
             session['logged_in'] = True
+            session['user_id'] = request.form['user_id']
             flash('ログインしました')
-            return redirect(url_for('entry.show_entries'))
+            return redirect(url_for('view.display_top_page'))
     return render_template('login.html')
 
 @view.route('/logout')
