@@ -96,20 +96,25 @@ class PurchaseClass:
         driver.find_element_by_id('signInSubmit').click()
         return None
 
-    def _amazon_login_with_password_only(slef, driver):
+    def _amazon_login_with_password_only(self, driver):
         driver.find_element_by_id('ap_password').send_keys(ps.get_parameters('/amazon/shop/pass'))
         driver.find_element_by_id('signInSubmit').click()
         return None
 
+    def _amazon_login_with_all_from_top(self, driver):
+        driver.find_element_by_xpath("//a[@id='nav-link-accountList']/span").click()
+        driver.find_element_by_id('ap_email').send_keys(ps.get_parameters('/amazon/shop/email'))
+        driver.find_element_by_id('continue').click()
+        driver.find_element_by_id('ap_password').send_keys(ps.get_parameters('/amazon/shop/pass'))
+        driver.find_element_by_id('signInSubmit').click()
+        return None
 
     def _amazon_try_str_security(self, driver):
         # 文字認証画面ではないならNosuchElementError
         driver.find_element_by_id('auth-captcha-guess')
-
         driver.find_element_by_id('ap_password').send_keys(ps.get_parameters('/amazon/shop/pass'))
         driver.find_element_by_id('auth-captcha-guess').send_keys(input())
         driver.find_element_by_id('signInSubmit').click()
-
         # cookieの送信
         self._upload_pkl_cookies(driver, 'captcha_new.pickle')
 
@@ -121,6 +126,7 @@ class PurchaseClass:
             logger.info('account_was_switched_and_logined!!')
         # cookie情報でログインできている場合
         else:
+            logger.info('switched_is_not_required')
             pass
         return None
 
@@ -128,17 +134,13 @@ class PurchaseClass:
         selector = '#availability'
         element = driver.find_element_by_css_selector(selector)
         availability = element.text
-
         if not self._is_availabile(availability):
             return False
-
         merchant_info = driver.find_element_by_id('merchant-info').text 
         if not self._is_correct_merchant(merchant_info, 'Amazon.co.jp'):
             return False
 
         return True
-
-
 
     def _is_availabile(self, availability):
         if '在庫あり' in availability:
@@ -193,8 +195,6 @@ class PurchaseClass:
         driver.find_element_by_name('proceedToRetailCheckout').click()
         time.sleep(1)
 
-        
-     
         self._upload_screen_shot(driver, 'cart', 'account_switch')
         logger.info(f'just_before_purchase!！')
         return True
@@ -211,11 +211,7 @@ class PurchaseClass:
         amazon_url = 'https://www.amazon.co.jp/'
         driver.get(amazon_url)
 
-        # cookieを読み込む
-        cookies = self._return_checked_cookies()
-        for cookie in cookies:
-            driver.add_cookie(cookie)
-
+        self._add_cookies_to_driver(driver, self._return_checked_cookies_from_s3())
         # driver.refresh()
 
         # 商品ページにアクセスする
@@ -235,14 +231,8 @@ class PurchaseClass:
         amazon_url = 'https://www.amazon.co.jp/'
         driver.get(amazon_url)
 
-        # ログイン
-        driver.find_element_by_xpath("//a[@id='nav-link-accountList']/span").click()
-        driver.find_element_by_id('ap_email').send_keys(ps.get_parameters('/amazon/shop/email'))
-        driver.find_element_by_id('continue').click()
-        driver.find_element_by_id('ap_password').send_keys(ps.get_parameters('/amazon/shop/pass'))
-        driver.find_element_by_id('signInSubmit').click()
+        self._amazon_login_with_all_from_top(driver)
         time.sleep(1)
-
         self._upload_screen_shot(driver, 'auth_img_before', timestamp)
 
         # 画像認証が出てくるはず  TODO: 本当はinputじゃなくてLINEから認証画像を見て入力したい
@@ -255,3 +245,4 @@ class PurchaseClass:
 
         # cookieの送信
         self._upload_pkl_cookies(driver, f'captcha_cookie_{user_id}.pickle')
+        return None
