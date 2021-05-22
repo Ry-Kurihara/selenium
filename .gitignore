@@ -6,3 +6,4 @@
 flask_data/__payache__/
 /created_image_file
 /.DS_Store
+captcha.pickle

@@ -62,13 +62,17 @@ class PurchaseClass:
             pickle.dump(driver.get_cookies(), f)
         s3_resorce.Bucket('my-bucket-ps5').upload_file(upload_name, upload_name)
 
-    def _return_checked_cookies(self, cookie_name='captcha.pickle'):
+    def _return_checked_cookies_from_s3(self, cookie_name='captcha.pickle'):
         s3 = boto3.resource('s3')
         pkl_name = cookie_name
         s3.Bucket('my-bucket-ps5').download_file(pkl_name, pkl_name)
         with open(pkl_name, 'rb') as f:
             cookies = pickle.load(f)
         return cookies
+
+    def _add_cookies_to_driver(self, driver, cookies):
+        for cookie in cookies:
+            driver.add_cookie(cookie)
 
     def _upload_page_souce(self, driver, html_name='hoge'):
         s3_resorce = boto3.resource('s3')
@@ -84,13 +88,19 @@ class PurchaseClass:
         driver.save_screenshot(image_name)
         s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
 
-    def _amazon_login(self, driver):
+    def _amazon_login_with_id_and_password(self, driver):
         driver.find_element_by_xpath("//a[@id='nav-link-accountList']/span").click()
         driver.find_element_by_id('ap_email').send_keys(ps.get_parameters('/amazon/shop/email'))
         driver.find_element_by_id('continue').click()
         driver.find_element_by_id('ap_password').send_keys(ps.get_parameters('/amazon/shop/pass'))
         driver.find_element_by_id('signInSubmit').click()
         return None
+
+    def _amazon_login_with_password_only(slef, driver):
+        driver.find_element_by_id('ap_password').send_keys(ps.get_parameters('/amazon/shop/pass'))
+        driver.find_element_by_id('signInSubmit').click()
+        return None
+
 
     def _amazon_try_str_security(self, driver):
         # 文字認証画面ではないならNosuchElementError
@@ -102,6 +112,33 @@ class PurchaseClass:
 
         # cookieの送信
         self._upload_pkl_cookies(driver, 'captcha_new.pickle')
+
+    def _check_switch_account_and_login(self, driver):
+        # たまにログインボタン押した後にアカウントの切り替え画面になる場合があるのでその場合に最初のアカウントを選択してログイン
+        if len(find_elements_by_class_name('cvf-widget-btn-verify-account-switcher')) > 0:
+            driver.find_element_by_class_name('cvf-widget-btn-verify-account-switcher').click()
+            self._amazon_login_with_id_and_password()
+            logger.info('account_was_switched_and_logined!!')
+        # cookie情報でログインできている場合
+        else:
+            pass
+        return None
+
+    def _is_ok_availability_and_merchant(self, driver):
+        selector = '#availability'
+        element = driver.find_element_by_css_selector(selector)
+        availability = element.text
+
+        if not self._is_availabile(availability):
+            return False
+
+        merchant_info = driver.find_element_by_id('merchant-info').text 
+        if not self._is_correct_merchant(merchant_info, 'Amazon.co.jp'):
+            return False
+
+        return True
+
+
 
     def _is_availabile(self, availability):
         if '在庫あり' in availability:
@@ -135,29 +172,18 @@ class PurchaseClass:
         amazon_url = 'https://www.amazon.co.jp/'
         driver.get(amazon_url)
 
-        # cookieを読み込む
-        cookies = self._return_checked_cookies()
-        for cookie in cookies:
-            driver.add_cookie(cookie)
-
+        self._add_cookies_to_driver(driver, self._return_checked_cookies_from_s3())
         # driver.refresh()
 
         # 商品ページにアクセスする
-        url = item_url
-        driver.get(url)
+        driver.get(item_url)
         time.sleep(1)
 
-        selector = '#availability'
-        element = driver.find_element_by_css_selector(selector)
-        availability = element.text
+        if not self._is_ok_availability_and_merchant(driver):
+            return False
 
-        if not self._is_availabile(availability):
-            return None 
-
-        # merchant_info = driver.find_element_by_id('merchant-info').text 
-        # if not self._is_correct_merchant(merchant_info, 'Amazon.co.jp'):
-        #     return None 
-
+        self._check_switch_account_and_login(driver)
+        time.sleep(1)
 
         # 購入
         driver.find_element_by_id('add-to-cart-button').click()
@@ -167,7 +193,9 @@ class PurchaseClass:
         driver.find_element_by_name('proceedToRetailCheckout').click()
         time.sleep(1)
 
-        self._upload_screen_shot(driver, 'cart', 'product_name')
+        
+     
+        self._upload_screen_shot(driver, 'cart', 'account_switch')
         logger.info(f'just_before_purchase!！')
         return True
         # driver.find_element_by_name('placeYourOrder1').click()
@@ -191,8 +219,7 @@ class PurchaseClass:
         # driver.refresh()
 
         # 商品ページにアクセスする
-        url = item_url
-        driver.get(url)
+        driver.get(item_url)
         time.sleep(1)
 
         product_title = driver.find_element_by_id('productTitle').text
