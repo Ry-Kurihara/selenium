@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-6 col-lg-4">
+            <h3>Bot Message Histories</h3>
+
+            <ul class="list-group list-group-flush">
+            {% for history in message_histories %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ history.message }}</h5>
+                </div>
+            </div>
+            {% endfor %}
+            </ul>
+
+        </div>
+
+        <div class="col-xs-6 col-lg-4">
+            <h3>Schedule Histories</h3>
+
+            <ul class="list-group list-group-flush">
+            {% for history in scheduled_histories %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ history.product_title }}</h5>
+                </div>
+            </div>
+            {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

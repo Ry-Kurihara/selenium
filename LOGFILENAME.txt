@@ -1,0 +1,170 @@
+2021-01-11 23:16:21,480 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - 起動します
+2021-01-11 23:17:29,071 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_item - 起動します
+2021-01-11 23:17:39,285 - INFO - selen_autopurchase.py - lib.selen_autopurchase - _check_availability - cant_purchase
+2021-01-11 23:17:59,071 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_item - 起動します
+2021-01-11 23:18:10,867 - INFO - selen_autopurchase.py - lib.selen_autopurchase - _check_availability - cant_purchase
+2021-01-12 23:14:57,161 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - 起動します
+2021-01-12 23:16:03,478 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_item - 起動します
+2021-01-12 23:16:14,044 - INFO - selen_autopurchase.py - lib.selen_autopurchase - _check_availability - cant_purchase
+2021-01-12 23:16:33,478 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_item - 起動します
+2021-01-12 23:16:45,020 - INFO - selen_autopurchase.py - lib.selen_autopurchase - _check_availability - cant_purchase
+2021-01-12 23:17:03,478 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_item - 起動します
+2021-01-12 23:17:13,274 - INFO - selen_autopurchase.py - lib.selen_autopurchase - _check_availability - cant_purchase
+2021-01-12 23:24:25,602 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-01-12 23:25:54,095 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-01-12 23:26:03,941 - INFO - selen_autopurchase.py - lib.selen_autopurchase - _check_availability - cant_purchase
+2021-01-31 15:26:27,210 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-01-31 15:27:53,402 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-01-31 15:28:03,633 - WARNING - selen_autopurchase.py - lib.selen_autopurchase - _check_availability - others: availability is 出品者からお求めいただけます。 在庫状況について (@ _ @)
+2021-05-05 03:36:19,897 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 03:36:58,809 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 03:42:14,151 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 03:42:49,727 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 03:43:46,891 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 03:44:34,174 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 03:44:34,175 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - アクセスしてます
+2021-05-05 03:52:10,139 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 04:20:22,622 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 04:21:13,447 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 04:23:19,546 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 04:24:11,078 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 11:39:08,122 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 11:41:44,419 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-05 11:41:56,670 - WARNING - selen_autopurchase.py - lib.selen_autopurchase - _check_availability - others: availability is 残り1点 ご注文はお早めに 在庫状況について (@ _ @)
+2021-05-05 11:42:44,412 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-05 11:42:57,112 - WARNING - selen_autopurchase.py - lib.selen_autopurchase - _check_availability - others: availability is 残り1点 ご注文はお早めに 在庫状況について (@ _ @)
+2021-05-05 11:43:44,413 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-05 11:43:56,596 - WARNING - selen_autopurchase.py - lib.selen_autopurchase - _check_availability - others: availability is 残り1点 ご注文はお早めに 在庫状況について (@ _ @)
+2021-05-05 11:44:44,436 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-05 11:44:56,569 - WARNING - selen_autopurchase.py - lib.selen_autopurchase - _check_availability - others: availability is 残り1点 ご注文はお早めに 在庫状況について (@ _ @)
+2021-05-05 11:45:44,515 - INFO - selen_autopurchase.py - lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-05 11:45:57,198 - WARNING - selen_autopurchase.py - lib.selen_autopurchase - _check_availability - others: availability is 残り1点 ご注文はお早めに 在庫状況について (@ _ @)
+2021-05-05 23:01:27,309 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-05 23:03:22,361 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_60_seconds!!
+2021-05-05 23:03:22,507 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-05 23:03:35,092 - WARNING - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _check_availability - others: availability is 残り13点 ご注文はお早めに 在庫状況について (@ _ @)
+2021-05-05 23:16:30,400 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-07 03:28:34,051 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-07 03:29:21,149 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-07 03:52:36,245 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-09 00:44:46,938 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-09 00:46:13,282 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_60_seconds!!
+2021-05-09 00:46:13,526 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-09 00:46:25,542 - WARNING - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _check_availability - others: availability is 残り2点 ご注文はお早めに 在庫状況について (@ _ @)
+2021-05-09 00:47:13,283 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_60_seconds!!
+2021-05-09 00:47:13,442 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-09 00:47:25,351 - WARNING - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _check_availability - others: availability is 残り2点 ご注文はお早めに 在庫状況について (@ _ @)
+2021-05-09 00:48:13,282 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_60_seconds!!
+2021-05-09 00:48:13,489 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-09 00:48:25,368 - WARNING - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _check_availability - others: availability is 残り2点 ご注文はお早めに 在庫状況について (@ _ @)
+2021-05-09 01:38:20,999 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-09 01:39:51,175 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_60_seconds!!
+2021-05-09 01:39:51,368 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-09 01:40:02,987 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - in_stock
+2021-05-09 01:42:42,739 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-09 01:44:09,309 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_60_seconds!!
+2021-05-09 01:44:09,430 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-09 01:44:21,202 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - scheduled_to_arrive
+2021-05-09 01:45:09,310 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_60_seconds!!
+2021-05-09 01:45:09,437 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-09 01:51:35,400 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-09 01:52:32,507 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-05-09 01:52:32,778 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-09 01:52:44,302 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - in_stock
+2021-05-09 01:52:51,741 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - just_before_purchase!！
+2021-05-09 01:52:51,743 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-05-09 01:53:02,510 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-05-09 01:53:02,753 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-09 01:53:14,744 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - in_stock
+2021-05-09 01:57:36,942 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-09 01:59:01,475 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_60_seconds!!
+2021-05-09 01:59:01,631 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-09 01:59:12,886 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - in_stock
+2021-05-09 01:59:21,668 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - just_before_purchase!！
+2021-05-09 01:59:21,668 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-05-09 02:00:01,473 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_60_seconds!!
+2021-05-09 02:00:01,743 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-09 02:00:14,142 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - in_stock
+2021-05-09 02:00:22,509 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - just_before_purchase!！
+2021-05-09 02:00:22,510 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-05-15 18:04:49,749 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-15 18:07:58,188 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-05-15 18:09:43,279 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_60_seconds!!
+2021-05-15 18:09:43,446 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-15 18:09:55,883 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - in_stock
+2021-05-15 18:10:04,988 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - just_before_purchase!！
+2021-05-15 18:10:04,989 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-05-15 18:26:16,872 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_60_seconds!!
+2021-05-15 18:26:17,160 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-15 18:26:30,486 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - in_stock
+2021-05-15 18:26:41,631 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - just_before_purchase!！
+2021-05-15 18:26:41,632 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-05-15 18:27:16,875 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_60_seconds!!
+2021-05-15 18:27:17,035 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-15 18:27:28,161 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - in_stock
+2021-05-15 18:27:39,090 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - just_before_purchase!！
+2021-05-15 18:27:39,090 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-05-15 18:39:57,779 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-05-15 18:39:57,945 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-15 18:40:10,068 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - in_stock
+2021-05-15 18:40:20,788 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - just_before_purchase!！
+2021-05-15 18:40:20,789 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-05-15 18:40:27,781 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-05-15 18:40:28,063 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-15 18:40:40,443 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - in_stock
+2021-05-15 18:40:50,743 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - just_before_purchase!！
+2021-05-15 18:40:50,743 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-05-15 18:42:26,645 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-05-15 18:42:26,804 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-15 18:42:38,174 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - in_stock
+2021-05-15 18:42:46,760 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - account switched!!
+2021-05-15 18:42:51,362 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - just_before_purchase!！
+2021-05-15 18:42:51,362 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-05-15 18:42:56,647 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-05-15 18:42:56,807 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-15 18:43:08,294 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - in_stock
+2021-05-15 18:43:16,332 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - account switched!!
+2021-05-15 18:43:20,701 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - just_before_purchase!！
+2021-05-15 18:43:20,702 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-05-16 13:41:45,987 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-05-16 13:41:46,153 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-16 13:41:59,119 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - in_stock
+2021-05-16 13:42:07,761 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - account switched!!
+2021-05-16 13:42:11,511 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - just_before_purchase!！
+2021-05-16 13:42:11,511 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-05-16 13:42:15,986 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-05-16 13:42:16,085 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-16 13:42:27,811 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - in_stock
+2021-05-16 13:42:35,882 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - account switched!!
+2021-05-16 13:42:39,614 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - just_before_purchase!！
+2021-05-16 13:42:39,614 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-05-16 13:45:25,103 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-05-16 13:45:25,269 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-16 13:45:36,535 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - in_stock
+2021-05-16 13:45:44,213 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - account switched!!
+2021-05-16 13:45:51,309 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - just_before_purchase!！
+2021-05-16 13:45:51,311 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-05-16 13:45:55,104 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-05-16 13:45:55,226 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-16 13:46:07,148 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - in_stock
+2021-05-16 13:46:14,185 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - account switched!!
+2021-05-16 13:46:21,542 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - just_before_purchase!！
+2021-05-16 13:46:21,543 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-05-16 13:46:25,101 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-05-16 13:46:25,217 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-16 13:46:36,950 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - in_stock
+2021-05-16 13:46:44,085 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - account switched!!
+2021-05-16 13:46:51,167 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - just_before_purchase!！
+2021-05-16 13:46:51,167 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-05-16 13:50:10,607 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-05-16 13:50:10,761 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-16 13:50:22,139 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - in_stock
+2021-05-16 13:50:30,661 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - account switched!!
+2021-05-16 13:50:38,709 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - just_before_purchase!！
+2021-05-16 13:50:38,709 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-05-16 13:50:40,609 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-05-16 13:50:40,742 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-05-16 13:50:53,298 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - in_stock
+2021-05-16 13:51:00,471 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - account switched!!
+2021-05-16 13:51:08,212 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - just_before_purchase!！
+2021-05-16 13:51:08,213 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
