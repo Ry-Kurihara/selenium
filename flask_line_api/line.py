@@ -121,6 +121,7 @@ def get_url_and_ask_time(event):
     elif 'sched_end' in event.message.text:
         sched.shutdown()
         text_message = TextSendMessage(text='スケジューラを終了しました')
+        logger.info('we killed scheduler!')
         line_bot_api.reply_message(
             event.reply_token,
             messages=text_message

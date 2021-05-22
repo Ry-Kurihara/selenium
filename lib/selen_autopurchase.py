@@ -131,15 +131,24 @@ class PurchaseClass:
         return None
 
     def _is_ok_availability_and_merchant(self, driver):
-        selector = '#availability'
-        element = driver.find_element_by_css_selector(selector)
-        availability = element.text
-        if not self._is_availabile(availability):
-            return False
-        merchant_info = driver.find_element_by_id('merchant-info').text 
-        if not self._is_correct_merchant(merchant_info, 'Amazon.co.jp'):
-            return False
+        # 在庫確認
+        if len(find_elements_by_css_selector('#availability')) > 0:
+            element = driver.find_element_by_css_selector('#availability')
+            availability = element.text
+            if not self._is_availabile(availability):
+                return False
+        else:
+            logger.warning('availability_selector_is_not_found')
+            pass
 
+        # ショップ確認
+        if len(find_elements_by_id('merchant-info')) > 0:
+            merchant_info = driver.find_element_by_id('merchant-info').text 
+            if not self._is_correct_merchant(merchant_info, 'Amazon.co.jp'):
+                return False
+        else:
+            logger.warning('merchant_info_id_is_not_found')
+            pass 
         return True
 
     def _is_availabile(self, availability):
