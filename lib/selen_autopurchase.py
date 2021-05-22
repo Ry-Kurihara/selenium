@@ -120,7 +120,7 @@ class PurchaseClass:
 
     def _check_switch_account_and_login(self, driver):
         # たまにログインボタン押した後にアカウントの切り替え画面になる場合があるのでその場合に最初のアカウントを選択してログイン
-        if len(find_elements_by_class_name('cvf-widget-btn-verify-account-switcher')) > 0:
+        if len(driver.find_elements_by_class_name('cvf-widget-btn-verify-account-switcher')) > 0:
             driver.find_element_by_class_name('cvf-widget-btn-verify-account-switcher').click()
             self._amazon_login_with_id_and_password()
             logger.info('account_was_switched_and_logined!!')
@@ -132,7 +132,7 @@ class PurchaseClass:
 
     def _is_ok_availability_and_merchant(self, driver):
         # 在庫確認
-        if len(find_elements_by_css_selector('#availability')) > 0:
+        if len(driver.find_elements_by_css_selector('#availability')) > 0:
             element = driver.find_element_by_css_selector('#availability')
             availability = element.text
             if not self._is_availabile(availability):
@@ -142,7 +142,7 @@ class PurchaseClass:
             pass
 
         # ショップ確認
-        if len(find_elements_by_id('merchant-info')) > 0:
+        if len(driver.find_elements_by_id('merchant-info')) > 0:
             merchant_info = driver.find_element_by_id('merchant-info').text 
             if not self._is_correct_merchant(merchant_info, 'Amazon.co.jp'):
                 return False
