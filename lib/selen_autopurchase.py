@@ -194,10 +194,11 @@ class PurchaseClass:
         driver.find_element_by_name('proceedToRetailCheckout').click()
         time.sleep(1)
 
+        self._upload_screen_shot(driver, 'cart', 'account_switch_before')
+
         self._check_switch_account_and_login(driver)
         time.sleep(1)
 
-        self._upload_screen_shot(driver, 'cart', 'account_switch')
         logger.info(f'just_before_purchase!！')
         driver.quit()
         return True
