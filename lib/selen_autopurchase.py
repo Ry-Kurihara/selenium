@@ -115,7 +115,7 @@ class PurchaseClass:
         # たまにログインボタン押した後にアカウントの切り替え画面になる場合があるのでその場合に最初のアカウントを選択してログイン
         if len(driver.find_elements_by_class_name('cvf-widget-btn-verify-account-switcher')) > 0:
             driver.find_element_by_class_name('cvf-widget-btn-verify-account-switcher').click()
-            self._amazon_login_with_id_and_password(driver)
+            self._amazon_login_with_password_only(driver)
             logger.info('account_was_switched_and_logined!!')
         # cookie情報でログインできている場合
         else:
