@@ -85,7 +85,7 @@ def get_url_and_ask_time(event):
         item_url = message
         purchaser = selen_autopurchase.PurchaseClass()
         product_title = purchaser.get_title_and_asin_from_url(timestamp, item_url)
-        s3_image_url = _get_s3_image_url('get_title', timestamp)
+        s3_image_url = _get_s3_image_url('get_title', timestamp, folder_name='')
         schedule_list = ["30", "60", "120", "240"]
         items = [QuickReplyButton(action=MessageAction(label=f"{schedule}秒間隔で監視する", text=f"schedule_{schedule}")) for schedule in schedule_list]
 
@@ -179,8 +179,8 @@ def get_target_item(event):
 
 """
 
-def _get_s3_image_url(image_name, timestamp, folder_name='created_image_file'):
-    image_name = f'{folder_name}/line_{image_name}_{timestamp}.png'
+def _get_s3_image_url(image_name, timestamp, folder_name='created_image_file/'):
+    image_name = f'{folder_name}line_{image_name}_{timestamp}.png'
     s3_client = boto3.client('s3')
     s3_image_url = s3_client.generate_presigned_url(
         ClientMethod = 'get_object',

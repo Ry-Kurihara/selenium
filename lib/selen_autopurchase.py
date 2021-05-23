@@ -182,6 +182,8 @@ class PurchaseClass:
         driver.get(item_url)
         time.sleep(1)
         if not self._is_ok_availability_and_merchant(driver):
+            logger.info('job finished because availability or merchant is not correct!!')
+            driver.quit()
             return False
 
         driver.find_element_by_id('add-to-cart-button').click()
