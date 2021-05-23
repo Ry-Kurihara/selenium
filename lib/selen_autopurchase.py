@@ -84,7 +84,7 @@ class PurchaseClass:
 
     def _upload_screen_shot(self, driver, image_name, timestamp):
         s3_resorce = boto3.resource('s3')
-        # herokuだと最初にcreated_image_file/をつけるとnot found errorに
+        # TODO: 本当は新規ディレクトリ配下に置きたいがherokuだと最初にcreated_image_file/をつけるとnot found errorに
         image_name = f'line_{image_name}_{timestamp}.png'
         driver.save_screenshot(image_name)
         s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
@@ -116,7 +116,6 @@ class PurchaseClass:
         if len(driver.find_elements_by_class_name('cvf-widget-btn-verify-account-switcher')) > 0:
             driver.find_element_by_class_name('cvf-widget-btn-verify-account-switcher').click()
             time.sleep(1)
-            self._upload_screen_shot(driver, 'account', 'switch_after')
             self._amazon_login_with_password_only(driver)
             logger.info('account_was_switched_and_logined!!')
         # cookie情報でログインできている場合
@@ -177,32 +176,24 @@ class PurchaseClass:
         # amazonにアクセスする
         amazon_url = 'https://www.amazon.co.jp/'
         driver.get(amazon_url)
-
         self._add_cookies_to_driver(driver, self._return_checked_cookies_from_s3())
-        # driver.refresh()
 
         # 商品ページにアクセスする
         driver.get(item_url)
         time.sleep(1)
-
         if not self._is_ok_availability_and_merchant(driver):
             return False
 
-        # 購入
         driver.find_element_by_id('add-to-cart-button').click()
         driver.get('https://amazon.co.jp/gp/cart/view.html/ref=nav_cart')
         time.sleep(1)
 
+        # login
         driver.find_element_by_name('proceedToRetailCheckout').click()
-        time.sleep(1)
-
-        self._upload_screen_shot(driver, 'cart', 'account_switch_before')
-
         self._check_switch_account_and_login(driver)
         time.sleep(1)
 
         self._upload_screen_shot(driver, 'cart', 'just_before_purchase')
-
         logger.info(f'just_before_purchase!！')
         driver.quit()
         return True
