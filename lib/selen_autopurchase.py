@@ -206,6 +206,7 @@ class PurchaseClass:
 
         self._upload_screen_shot(driver, 'cart', 'account_switch')
         logger.info(f'just_before_purchase!！')
+        driver.quit()
         return True
         # driver.find_element_by_name('placeYourOrder1').click()
         
@@ -230,6 +231,7 @@ class PurchaseClass:
         product_title = driver.find_element_by_id('productTitle').text
         # できればASINも
         self._upload_screen_shot(driver, 'get_title', timestamp)
+        driver.quit()
 
         return product_title
 
@@ -254,4 +256,5 @@ class PurchaseClass:
 
         # cookieの送信
         self._upload_pkl_cookies(driver, f'captcha_cookie_{user_id}.pickle')
+        driver.quit()
         return None
