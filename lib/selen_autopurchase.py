@@ -84,7 +84,8 @@ class PurchaseClass:
 
     def _upload_screen_shot(self, driver, image_name, timestamp):
         s3_resorce = boto3.resource('s3')
-        image_name = f'created_image_file/line_{image_name}_{timestamp}.png'
+        # herokuだと最初にcreated_image_file/をつけるとnot found errorに
+        image_name = f'line_{image_name}_{timestamp}.png'
         driver.save_screenshot(image_name)
         s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
 
@@ -97,14 +98,6 @@ class PurchaseClass:
         return None
 
     def _amazon_login_with_password_only(self, driver):
-        driver.find_element_by_id('ap_password').send_keys(ps.get_parameters('/amazon/shop/pass'))
-        driver.find_element_by_id('signInSubmit').click()
-        return None
-
-    def _amazon_login_with_all_from_top(self, driver):
-        driver.find_element_by_xpath("//a[@id='nav-link-accountList']/span").click()
-        driver.find_element_by_id('ap_email').send_keys(ps.get_parameters('/amazon/shop/email'))
-        driver.find_element_by_id('continue').click()
         driver.find_element_by_id('ap_password').send_keys(ps.get_parameters('/amazon/shop/pass'))
         driver.find_element_by_id('signInSubmit').click()
         return None
@@ -242,7 +235,7 @@ class PurchaseClass:
         amazon_url = 'https://www.amazon.co.jp/'
         driver.get(amazon_url)
 
-        self._amazon_login_with_all_from_top(driver)
+        self._amazon_login_with_id_and_password(driver)
         time.sleep(1)
         self._upload_screen_shot(driver, 'auth_img_before', timestamp)
 
