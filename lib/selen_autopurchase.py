@@ -186,15 +186,15 @@ class PurchaseClass:
         if not self._is_ok_availability_and_merchant(driver):
             return False
 
-        self._check_switch_account_and_login(driver)
-        time.sleep(1)
-
         # 購入
         driver.find_element_by_id('add-to-cart-button').click()
         driver.get('https://amazon.co.jp/gp/cart/view.html/ref=nav_cart')
         time.sleep(1)
 
         driver.find_element_by_name('proceedToRetailCheckout').click()
+        time.sleep(1)
+
+        self._check_switch_account_and_login(driver)
         time.sleep(1)
 
         self._upload_screen_shot(driver, 'cart', 'account_switch')
