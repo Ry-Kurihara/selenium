@@ -10,3 +10,4 @@ flask_data/__payache__/
 *.pickle
 __payache__
 *.pyc
+*.DS_Store
