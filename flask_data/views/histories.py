@@ -20,3 +20,7 @@ def show_history(user_id):
     message_histories = Message_History.query.filter(Message_History.user_id == user_id).order_by(desc(Message_History.timestamp)).limit(50).all()
     scheduled_histories = Scheduled_History.query.filter(Scheduled_History.user_id == user_id).order_by(desc(Scheduled_History.timestamp)).limit(50).all()
     return render_template('histories/show.html', message_histories=message_histories, scheduled_histories=scheduled_histories)
+
+@history.route('/show/line_bot_description')
+def show_line_bot_description():
+    return render_template('histories/line_bot_description.html')
