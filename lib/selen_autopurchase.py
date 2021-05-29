@@ -145,17 +145,18 @@ class PurchaseClass:
         return True
 
     def _is_availabile(self, availability):
+        avail_txt = "availability_is_"
         if '在庫あり' in availability:
-            logger.info('in_stock')
+            logger.info(f'{avail_txt}in_stock')
             return True
         elif '入荷予定' in availability:
-            logger.info('scheduled_to_arrive')
+            logger.info(f'{avail_txt}scheduled_to_arrive')
         elif '在庫切れ' in availability:
-            logger.info('out_of_stock')
+            logger.info(f'{avail_txt}out_of_stock')
         elif '現在お取り扱いできません' in availability:
-            logger.info('cant_purchase')
+            logger.info(f'{avail_txt}cant_purchase')
         else:
-            logger.warning(f'others: availability is {availability} (@ _ @)')
+            logger.warning(f'{avail_txt}{availability} (@ _ @)')
         return False 
 
     def _is_correct_merchant(self, merchant_info, target_merchant):

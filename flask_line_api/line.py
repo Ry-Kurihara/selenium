@@ -110,7 +110,7 @@ def get_url_and_ask_time(event):
         product_title = df.at[0, 'product_title']
         product_url = df.at[0, 'item_url']
         text_message = TextSendMessage(text=f'{product_title}のスケジューラを{schedule_seconds}秒間隔で設定します')
-        sched.add_job(_start_search, 'interval', args=[schedule_seconds, product_url], seconds=schedule_seconds)
+        sched.add_job(_start_search, 'interval', args=[schedule_seconds, product_url], seconds=schedule_seconds, id='job_get_item_from_amazon')
         sched.start()
 
         line_bot_api.reply_message(
@@ -119,7 +119,7 @@ def get_url_and_ask_time(event):
         )
 
     elif 'sched_end' in event.message.text:
-        sched.shutdown()
+        sched.remove_job('job_get_item_from_amazon')
         text_message = TextSendMessage(text='スケジューラを終了しました')
         logger.info('we killed scheduler!')
         line_bot_api.reply_message(
