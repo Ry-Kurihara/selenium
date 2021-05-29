@@ -39,7 +39,7 @@ def login():
 def logout():
     session.pop('logged_in', None)
     flash('ログアウトしました')
-    return redirect(url_for('entry.show_entries'))
+    return redirect(url_for('view.display_top_page'))
 
 @view.app_errorhandler(404)
 def non_existant_route(error):

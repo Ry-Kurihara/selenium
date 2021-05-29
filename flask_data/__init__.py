@@ -12,9 +12,7 @@ def create_app(test_config=None):
     db.init_app(app)
 
     from flask_data.views.views import view
-    from flask_data.views.entries import entry
     from flask_data.views.histories import history
-    app.register_blueprint(entry, url_prefix='/users')
     app.register_blueprint(view, url_prefix='/')
     app.register_blueprint(history, url_prefix='/histories')
 
