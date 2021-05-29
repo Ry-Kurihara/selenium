@@ -82,10 +82,9 @@ class PurchaseClass:
             f.write(html)
         s3_resorce.Bucket('my-bucket-ps5').upload_file(html_name, html_name)
 
-    def _upload_screen_shot(self, driver, image_name, timestamp):
+    def _upload_screen_shot(self, driver, image_name, timestamp, folder_name='created_image_file/'):
         s3_resorce = boto3.resource('s3')
-        # TODO: 本当は新規ディレクトリ配下に置きたいがherokuだと最初にcreated_image_file/をつけるとnot found errorに
-        image_name = f'line_{image_name}_{timestamp}.png'
+        image_name = f'{folder_name}line_{image_name}_{timestamp}.png'
         driver.save_screenshot(image_name)
         s3_resorce.Bucket('my-bucket-ps5').upload_file(image_name, image_name)
 

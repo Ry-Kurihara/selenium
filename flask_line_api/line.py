@@ -85,7 +85,7 @@ def get_url_and_ask_time(event):
         item_url = message
         purchaser = selen_autopurchase.PurchaseClass()
         product_title = purchaser.get_title_and_asin_from_url(timestamp, item_url)
-        s3_image_url = _get_s3_image_url('get_title', timestamp, folder_name='')
+        s3_image_url = _get_s3_image_url('get_title', timestamp)
         schedule_list = ["30", "60", "120", "240"]
         items = [QuickReplyButton(action=MessageAction(label=f"{schedule}秒間隔で監視する", text=f"schedule_{schedule}")) for schedule in schedule_list]
 
