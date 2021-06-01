@@ -43,11 +43,13 @@ class PurchaseClass:
         # self.options.add_argument('--profile-directory=profile')
 
         # ※herokuなどの本番環境でヘッドレスモードを使用する
-        env = ps.get_parameters('app_env')
+        env = os.environ['APP_ENV']
         if env == 'mywin':
+            logger.info(f"mywin: your environ is {env}")
             self.DRIVER_PATH = '/Users/r_kurihara/Documents/local/bin/chromedriver'
             self.options.add_argument('--headless'); # たまにヘッドレスモードで確認したい
         elif env == 'heroku':
+            logger.info(f"heroku: your environ is {env}")
             self.DRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
             self.options.add_argument('--headless');
         else:
@@ -123,6 +125,17 @@ class PurchaseClass:
             pass
         return None
 
+
+    def _has_cheaper_total_price_than_your_max_price(self, driver, your_max_price):
+        total_price = driver.find_element_by_class_name('grand-total-price')
+        if total_price <= your_max_price:
+            logger.info(f"OK!!! your max price is {your_max_price} and total price is {total_price}")
+            return True
+        else:
+            logger.info(f"That is too Expensive!!! your max price is {your_max_price} but total price is {total_price}")
+            return False
+        
+
     def _is_ok_availability_and_merchant(self, driver):
         # 在庫確認
         if len(driver.find_elements_by_css_selector('#availability')) > 0:
@@ -166,7 +179,6 @@ class PurchaseClass:
             return True 
         return False 
 
-
     def get_item(self, item_url):
         # ブラウザの起動
         logger.info('getting_started_get_item!')
@@ -195,8 +207,12 @@ class PurchaseClass:
         self._check_switch_account_and_login(driver)
         time.sleep(1)
 
+        # check_total_price
+        self._has_cheaper_total_price_than_your_max_price(driver, 4000)
+
         self._upload_screen_shot(driver, 'cart', 'just_before_purchase')
         logger.info(f'just_before_purchase!！')
+
         driver.quit()
         return True
         # driver.find_element_by_name('placeYourOrder1').click()
@@ -211,6 +227,8 @@ class PurchaseClass:
         # amazonにアクセスする
         amazon_url = 'https://www.amazon.co.jp/'
         driver.get(amazon_url)
+
+        
 
         self._add_cookies_to_driver(driver, self._return_checked_cookies_from_s3())
         # driver.refresh()

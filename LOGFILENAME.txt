@@ -168,3 +168,8 @@
 2021-05-16 13:51:00,471 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - account switched!!
 2021-05-16 13:51:08,212 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - just_before_purchase!！
 2021-05-16 13:51:08,213 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-06-01 22:00:53,216 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-06-01 22:02:38,810 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-06-01 22:03:30,593 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-06-01 22:04:07,798 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-06-01 22:04:07,798 - WARNING - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - ここまであるお
