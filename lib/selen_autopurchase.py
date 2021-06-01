@@ -127,7 +127,7 @@ class PurchaseClass:
 
 
     def _has_cheaper_total_price_than_your_max_price(self, driver, your_max_price):
-        total_price = driver.find_element_by_class_name('grand-total-price')
+        total_price = int(driver.find_element_by_class_name('grand-total-price').text.replace('￥', '').replace(',', ''))
         if total_price <= your_max_price:
             logger.info(f"OK!!! your max price is {your_max_price} and total price is {total_price}")
             return True
@@ -135,6 +135,20 @@ class PurchaseClass:
             logger.info(f"That is too Expensive!!! your max price is {your_max_price} but total price is {total_price}")
             return False
         
+    def _clear_items_already_exits_in_cart(self, driver):
+        # カートページに移動
+        driver.get('https://amazon.co.jp/gp/cart/view.html/ref=nav_cart')
+        while len(driver.find_elements_by_xpath("//input[starts-with(@name, 'submit.delete.')]")) > 0:
+            can_delete_object = driver.find_element_by_xpath("//input[starts-with(@name, 'submit.delete.')]")
+            delete_items_txt = can_delete_object.get_attribute('aria-label')
+            logger.info(f"we will delete {delete_items_txt} that in cart!!!")
+            can_delete_object.click()
+            # 消した後に再度移動しないとwhile評価式の結果が変わらない
+            driver.get('https://amazon.co.jp/gp/cart/view.html/ref=nav_cart')
+
+        logger.info('finished clear items!!!')
+        return None
+
 
     def _is_ok_availability_and_merchant(self, driver):
         # 在庫確認
@@ -190,6 +204,9 @@ class PurchaseClass:
         driver.get(amazon_url)
         self._add_cookies_to_driver(driver, self._return_checked_cookies_from_s3())
 
+        # 一旦カートの中身を削除
+        self._clear_items_already_exits_in_cart(driver)
+
         # 商品ページにアクセスする
         driver.get(item_url)
         time.sleep(1)
@@ -198,6 +215,7 @@ class PurchaseClass:
             driver.quit()
             return False
 
+        # カートに追加してカートページに移動
         driver.find_element_by_id('add-to-cart-button').click()
         driver.get('https://amazon.co.jp/gp/cart/view.html/ref=nav_cart')
         time.sleep(1)
@@ -208,6 +226,7 @@ class PurchaseClass:
         time.sleep(1)
 
         # check_total_price
+        self._upload_screen_shot(driver, 'cart', 'just_before_purchase')
         self._has_cheaper_total_price_than_your_max_price(driver, 4000)
 
         self._upload_screen_shot(driver, 'cart', 'just_before_purchase')
