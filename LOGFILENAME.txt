@@ -3938,3 +3938,40 @@
 2021-06-02 00:40:34,391 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _has_cheaper_total_price_than_your_max_price - That is too Expensive!!! your max price is 4000 but total price is 4180
 2021-06-02 00:40:35,213 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - just_before_purchase!！
 2021-06-02 00:40:35,308 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-06-04 05:49:34,820 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-06-04 05:50:04,822 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-06-04 05:51:37,963 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-06-04 05:51:37,964 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - __init__ - mywin: your environ is mywin
+2021-06-04 05:51:37,965 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-06-04 05:51:47,462 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _clear_items_already_exits_in_cart - we will delete 削除 入門 Python 3 第2版 that in cart!!!
+2021-06-04 05:51:49,300 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _clear_items_already_exits_in_cart - finished clear items!!!
+2021-06-04 05:51:52,410 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - availability_is_in_stock
+2021-06-04 05:51:52,418 - WARNING - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_ok_availability_and_merchant - merchant_info_id_is_not_found
+2021-06-04 05:52:00,113 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _check_switch_account_and_login - account_was_switched_and_logined!!
+2021-06-04 05:52:04,924 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _has_cheaper_total_price_than_your_max_price - OK!!! your max price is 45000 and total price is 4180
+2021-06-04 05:52:06,846 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - order that it clear!!!!
+2021-06-04 05:52:06,941 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-06-04 06:03:52,588 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-06-04 06:03:52,589 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - __init__ - mywin: your environ is mywin
+2021-06-04 06:03:52,589 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-06-04 06:04:01,970 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _clear_items_already_exits_in_cart - we will delete 削除 入門 Python 3 第2版 that in cart!!!
+2021-06-04 06:04:03,594 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _clear_items_already_exits_in_cart - finished clear items!!!
+2021-06-04 06:04:06,852 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - availability_is_in_stock
+2021-06-04 06:04:06,861 - WARNING - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_ok_availability_and_merchant - merchant_info_id_is_not_found
+2021-06-04 06:04:15,313 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _check_switch_account_and_login - account_was_switched_and_logined!!
+2021-06-04 06:04:20,166 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _has_cheaper_total_price_than_your_max_price - OK!!! your max price is 45000 and total price is 4180
+2021-06-04 06:04:22,324 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - order that it clear!!!!
+2021-06-04 06:04:22,416 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-06-04 06:04:22,417 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we killed scheduler!!!!!!!
+2021-06-04 06:08:37,366 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-06-04 06:08:37,367 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - __init__ - mywin: your environ is mywin
+2021-06-04 06:08:37,367 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-06-04 06:08:46,292 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _clear_items_already_exits_in_cart - we will delete 削除 入門 Python 3 第2版 that in cart!!!
+2021-06-04 06:08:48,104 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _clear_items_already_exits_in_cart - finished clear items!!!
+2021-06-04 06:08:51,608 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - availability_is_in_stock
+2021-06-04 06:08:51,615 - WARNING - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_ok_availability_and_merchant - merchant_info_id_is_not_found
+2021-06-04 06:08:59,400 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _check_switch_account_and_login - account_was_switched_and_logined!!
+2021-06-04 06:09:04,153 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _has_cheaper_total_price_than_your_max_price - OK!!! your max price is 45000 and total price is 4180
+2021-06-04 06:09:06,011 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - order that it clear!!!!
+2021-06-04 06:09:06,108 - INFO - line.py - app.flask.flask_line_api.line - _start_search - got_it_over!!!!
+2021-06-04 06:09:06,109 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we killed scheduler!!!!!!!

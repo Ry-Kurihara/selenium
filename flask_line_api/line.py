@@ -73,15 +73,14 @@ def get_url_and_ask_time(event):
     df = pd.DataFrame(data=[[user_id, timestamp, message]], columns=['user_id', 'timestamp', 'message'])
     df.to_sql('line_autopurchase', con=engine, if_exists='append', index=False)
 
-    # TODO: event.message.textをmessageに変える
-    if 'Amazonで購入' in event.message.text:
+    if 'Amazonで購入' in message:
         messages = TextSendMessage(text='URLを入力してください')
         line_bot_api.reply_message(
             event.reply_token,
             messages=messages
         )
 
-    elif 'https://www.amazon.co.jp' in event.message.text:
+    elif 'https://www.amazon.co.jp' in message:
         item_url = message
         purchaser = selen_autopurchase.PurchaseClass()
         product_title = purchaser.get_title_and_asin_from_url(timestamp, item_url)
@@ -104,13 +103,13 @@ def get_url_and_ask_time(event):
             messages=messages
         )
 
-    elif 'schedule_' in event.message.text:
+    elif 'schedule_' in message:
         schedule_seconds = int(event.message.text[9:])
         df = pd.read_sql(sql=f"SELECT * from line_purchase_list WHERE user_id='{user_id}' ORDER BY CAST(timestamp AS BIGINT) DESC", con=engine)
         product_title = df.at[0, 'product_title']
         product_url = df.at[0, 'item_url']
         text_message = TextSendMessage(text=f'{product_title}のスケジューラを{schedule_seconds}秒間隔で設定します')
-        sched.add_job(_start_search, 'interval', args=[schedule_seconds, product_url], seconds=schedule_seconds, id='job_get_item_from_amazon')
+        sched.add_job(_start_search, 'interval', args=[schedule_seconds, product_url, user_id], seconds=schedule_seconds, id='job_get_item_from_amazon')
         sched.start()
 
         line_bot_api.reply_message(
@@ -118,7 +117,7 @@ def get_url_and_ask_time(event):
             messages=text_message
         )
 
-    elif 'sched_end' in event.message.text:
+    elif 'sched_end' in message:
         sched.remove_job('job_get_item_from_amazon')
         text_message = TextSendMessage(text='スケジューラを終了しました')
         logger.info('we killed scheduler!')
@@ -128,7 +127,7 @@ def get_url_and_ask_time(event):
         )
 
     # TODO: 通るか確認
-    elif 'get_cookie' in event.message.text:
+    elif 'get_cookie' in message:
         purchaser = selen_autopurchase.PurchaseClass()
 
         purchaser.get_auth_info_for_img_captcha(timestamp, user_id)
@@ -190,10 +189,21 @@ def _get_s3_image_url(image_name, timestamp, folder_name='created_image_file/'):
     )
     return s3_image_url
 
-def _start_search(schedule_seconds, url):
+def _start_search(schedule_seconds, url, user_id):
     logger.info(f'we_try_to_purchase_by_{schedule_seconds}_seconds!!')
     purchaser = selen_autopurchase.PurchaseClass()
     status = purchaser.get_item(url)
     if status:
         logger.info('got_it_over!!!!')
-        # TODO: スケジューラ停止処理を書く
+        sched.remove_job('job_get_item_from_amazon')
+        logger.info(f"we killed scheduler!!!!!!!")
+        # LINEで通知
+        messages = TextSendMessage(text='購入完了したよ')
+        line_bot_api.push_message(
+            to=user_id,
+            messages=messages
+        )
+    else:
+        logger.info("continue...")
+
+    return None

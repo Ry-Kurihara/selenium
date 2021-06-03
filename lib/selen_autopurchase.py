@@ -225,16 +225,18 @@ class PurchaseClass:
         self._check_switch_account_and_login(driver)
         time.sleep(1)
 
-        # check_total_price
+        # check_total_price TODO: 上限価格はLINEから入力してもらいたい
         self._upload_screen_shot(driver, 'cart', 'just_before_purchase')
-        self._has_cheaper_total_price_than_your_max_price(driver, 4000)
+        self._has_cheaper_total_price_than_your_max_price(driver, 45000)
 
-        self._upload_screen_shot(driver, 'cart', 'just_before_purchase')
-        logger.info(f'just_before_purchase!！')
+        # purchase Item
+        # driver.find_element_by_name('placeYourOrder1').click()
+        time.sleep(1)
+        self._upload_screen_shot(driver, 'order', 'finished')
+        logger.info(f"order that it clear!!!!")
 
         driver.quit()
         return True
-        # driver.find_element_by_name('placeYourOrder1').click()
         
 
     def get_title_and_asin_from_url(self, timestamp, item_url):
