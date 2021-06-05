@@ -193,7 +193,7 @@ class PurchaseClass:
             return True 
         return False 
 
-    def get_item(self, item_url):
+    def get_item(self, item_url, max_price):
         # ブラウザの起動
         logger.info('getting_started_get_item!')
         driver = webdriver.Chrome(executable_path=self.DRIVER_PATH, chrome_options=self.options)
@@ -225,9 +225,9 @@ class PurchaseClass:
         self._check_switch_account_and_login(driver)
         time.sleep(1)
 
-        # check_total_price TODO: 上限価格はLINEから入力してもらいたい
+        # check_total_price
         self._upload_screen_shot(driver, 'cart', 'just_before_purchase')
-        self._has_cheaper_total_price_than_your_max_price(driver, 45000)
+        self._has_cheaper_total_price_than_your_max_price(driver, max_price)
 
         # purchase Item
         # driver.find_element_by_name('placeYourOrder1').click()

@@ -20,7 +20,8 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, QuickReplyButton, QuickReply, TextSendMessage, TemplateSendMessage, ImageSendMessage, PostbackEvent,
+    MessageEvent, TextMessage, QuickReplyButton, QuickReply, 
+    TextSendMessage, TemplateSendMessage, ImageSendMessage, StickerSendMessage, PostbackEvent,
     CarouselColumn, CarouselTemplate, ButtonsTemplate,
     PostbackAction, URIAction, MessageAction
 )
@@ -85,22 +86,37 @@ def get_url_and_ask_time(event):
         purchaser = selen_autopurchase.PurchaseClass()
         product_title = purchaser.get_title_and_asin_from_url(timestamp, item_url)
         s3_image_url = _get_s3_image_url('get_title', timestamp)
-        schedule_list = ["30", "60", "120", "240"]
-        items = [QuickReplyButton(action=MessageAction(label=f"{schedule}秒間隔で監視する", text=f"schedule_{schedule}")) for schedule in schedule_list]
-
         df = pd.DataFrame(data=[[user_id, timestamp, item_url, product_title]], columns=['user_id', 'timestamp', 'item_url', 'product_title'])
         df.to_sql('line_purchase_list', con=engine, if_exists='append', index=False)
 
-        text_message = TextSendMessage(text=f"商品名：{product_title}を監視します")
+        text_message = TextSendMessage(text=f"商品名：{product_title}を監視します！ 上限金額を設定してください")
         image_message = ImageSendMessage(
                 original_content_url=s3_image_url,
                 preview_image_url=s3_image_url, 
-                quick_reply=QuickReply(items=items),
-            )
+        )
         messages = [text_message, image_message]
         line_bot_api.reply_message(
             event.reply_token,
             messages=messages
+        )
+
+    elif 'maxprice_' in message:
+        df = pd.read_sql(sql=f"SELECT * from line_purchase_list WHERE user_id='{user_id}' ORDER BY CAST(timestamp AS BIGINT) DESC", con=engine)
+        item_url = df.at[0, 'item_url']
+        product_title = df.at[0, 'product_title']
+        max_price = event.message.text[9:]
+        df = pd.DataFrame(data=[[user_id, timestamp, item_url, product_title, max_price]], columns=['user_id', 'timestamp', 'item_url', 'product_title', 'max_price'])
+        df.to_sql('line_purchase_list', con=engine, if_exists='append', index=False)
+
+        schedule_list = ["30", "60", "120", "240"]
+        items = [QuickReplyButton(action=MessageAction(label=f"{schedule}秒間隔で監視する", text=f"schedule_{schedule}")) for schedule in schedule_list]
+        text_message = TextSendMessage(
+            text=f"{product_title}の上限金額を{max_price}円に設定しました！ 最後に監視頻度を指定してください",
+            quick_reply=QuickReply(items=items),
+        )
+        line_bot_api.reply_message(
+            event.reply_token,
+            messages=text_message,
         )
 
     elif 'schedule_' in message:
@@ -108,8 +124,9 @@ def get_url_and_ask_time(event):
         df = pd.read_sql(sql=f"SELECT * from line_purchase_list WHERE user_id='{user_id}' ORDER BY CAST(timestamp AS BIGINT) DESC", con=engine)
         product_title = df.at[0, 'product_title']
         product_url = df.at[0, 'item_url']
+        max_price = df.at[0, 'max_price']
         text_message = TextSendMessage(text=f'{product_title}のスケジューラを{schedule_seconds}秒間隔で設定します')
-        sched.add_job(_start_search, 'interval', args=[schedule_seconds, product_url, user_id], seconds=schedule_seconds, id='job_get_item_from_amazon')
+        sched.add_job(_start_search, 'interval', args=[schedule_seconds, product_url, user_id, max_price], seconds=schedule_seconds, id='job_get_item_from_amazon')
         sched.start()
 
         line_bot_api.reply_message(
@@ -121,6 +138,13 @@ def get_url_and_ask_time(event):
         sched.remove_job('job_get_item_from_amazon')
         text_message = TextSendMessage(text='スケジューラを終了しました')
         logger.info('we killed scheduler!')
+        line_bot_api.reply_message(
+            event.reply_token,
+            messages=text_message
+        )
+
+    elif '使い方を教えて' in message:
+        text_message = TextSendMessage(text='https://selen-ps5.herokuapp.com/histories/show/line_bot_description')
         line_bot_api.reply_message(
             event.reply_token,
             messages=text_message
@@ -189,16 +213,18 @@ def _get_s3_image_url(image_name, timestamp, folder_name='created_image_file/'):
     )
     return s3_image_url
 
-def _start_search(schedule_seconds, url, user_id):
+def _start_search(schedule_seconds, url, user_id, max_price):
     logger.info(f'we_try_to_purchase_by_{schedule_seconds}_seconds!!')
     purchaser = selen_autopurchase.PurchaseClass()
-    status = purchaser.get_item(url)
+    status = purchaser.get_item(url, max_price)
     if status:
         logger.info('got_it_over!!!!')
         sched.remove_job('job_get_item_from_amazon')
         logger.info(f"we killed scheduler!!!!!!!")
         # LINEで通知
-        messages = TextSendMessage(text='購入完了したよ')
+        txt_messages = TextSendMessage(text='購入完了したよ')
+        sticker_messages = StickerSendMessage(package_id='6325', sticker_id='10979907')
+        messages = [txt_messages, sticker_messages]
         line_bot_api.push_message(
             to=user_id,
             messages=messages
