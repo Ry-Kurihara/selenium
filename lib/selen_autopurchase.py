@@ -223,10 +223,11 @@ class PurchaseClass:
 
         # login
         driver.find_element_by_name('proceedToRetailCheckout').click()
-        self._check_switch_account_and_login(driver)
         time.sleep(1)
+        self._check_switch_account_and_login(driver)
 
         # check_total_price
+        time.sleep(1)
         self._upload_screen_shot(driver, 'cart', 'just_before_purchase')
         self._has_cheaper_total_price_than_your_max_price(driver, max_price)
 
