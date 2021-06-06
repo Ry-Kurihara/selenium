@@ -122,7 +122,7 @@ class PurchaseClass:
         # cookie情報でログインできている場合
         else:
             logger.info('switched_is_not_required')
-            self._upload_screen_shot(driver, 'not_req', 'heroku')
+            self._upload_screen_shot(driver, 'account', 'not_switch')
             pass
         return None
 
@@ -231,7 +231,7 @@ class PurchaseClass:
         self._has_cheaper_total_price_than_your_max_price(driver, max_price)
 
         # purchase Item
-        driver.find_element_by_name('placeYourOrder1').click()
+        # driver.find_element_by_name('placeYourOrder1').click()
         time.sleep(1)
         self._upload_screen_shot(driver, 'order_finished', timestamp)
         logger.info(f"order that it clear!!!!")
