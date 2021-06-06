@@ -126,7 +126,7 @@ def get_url_and_ask_time(event):
         product_url = df.at[0, 'item_url']
         max_price = df.at[0, 'max_price']
         text_message = TextSendMessage(text=f'{product_title}のスケジューラを{schedule_seconds}秒間隔で設定します')
-        sched.add_job(_start_search, 'interval', args=[schedule_seconds, product_url, user_id, max_price], seconds=schedule_seconds, id='job_get_item_from_amazon')
+        sched.add_job(_start_search, 'interval', args=[schedule_seconds, product_url, user_id, max_price, timestamp], seconds=schedule_seconds, id='job_get_item_from_amazon')
         sched.start()
 
         line_bot_api.reply_message(
@@ -143,11 +143,19 @@ def get_url_and_ask_time(event):
             messages=text_message
         )
 
+    # リッチメニューからのメッセージ
     elif '使い方を教えて' in message:
         text_message = TextSendMessage(text='https://selen-ps5.herokuapp.com/histories/show/line_bot_description')
         line_bot_api.reply_message(
             event.reply_token,
             messages=text_message
+        )
+
+    elif 'my_userID' in message:
+        messages = TextSendMessage(text=f"{user_id}")
+        line_bot_api.reply_message(
+            event.reply_token,
+            messages=messages
         )
 
     # TODO: 通るか確認
@@ -213,18 +221,23 @@ def _get_s3_image_url(image_name, timestamp, folder_name='created_image_file/'):
     )
     return s3_image_url
 
-def _start_search(schedule_seconds, url, user_id, max_price):
+def _start_search(schedule_seconds, url, user_id, max_price, timestamp):
     logger.info(f'we_try_to_purchase_by_{schedule_seconds}_seconds!!')
     purchaser = selen_autopurchase.PurchaseClass()
-    status = purchaser.get_item(url, max_price)
+    status = purchaser.get_item(url, max_price, timestamp)
     if status:
-        logger.info('got_it_over!!!!')
+        logger.info(f'got_it_over!!!!')
         sched.remove_job('job_get_item_from_amazon')
         logger.info(f"we killed scheduler!!!!!!!")
         # LINEで通知
         txt_messages = TextSendMessage(text='購入完了したよ')
+        s3_image_url = _get_s3_image_url('order_finished', timestamp)
+        image_message = ImageSendMessage(
+                original_content_url=s3_image_url,
+                preview_image_url=s3_image_url, 
+        )
         sticker_messages = StickerSendMessage(package_id='6325', sticker_id='10979907')
-        messages = [txt_messages, sticker_messages]
+        messages = [txt_messages, image_message, sticker_messages]
         line_bot_api.push_message(
             to=user_id,
             messages=messages

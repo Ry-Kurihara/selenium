@@ -128,7 +128,7 @@ class PurchaseClass:
 
     def _has_cheaper_total_price_than_your_max_price(self, driver, your_max_price):
         total_price = int(driver.find_element_by_class_name('grand-total-price').text.replace('￥', '').replace(',', ''))
-        if total_price <= your_max_price:
+        if total_price <= int(your_max_price):
             logger.info(f"OK!!! your max price is {your_max_price} and total price is {total_price}")
             return True
         else:
@@ -193,7 +193,7 @@ class PurchaseClass:
             return True 
         return False 
 
-    def get_item(self, item_url, max_price):
+    def get_item(self, item_url, max_price, timestamp):
         # ブラウザの起動
         logger.info('getting_started_get_item!')
         driver = webdriver.Chrome(executable_path=self.DRIVER_PATH, chrome_options=self.options)
@@ -230,9 +230,9 @@ class PurchaseClass:
         self._has_cheaper_total_price_than_your_max_price(driver, max_price)
 
         # purchase Item
-        # driver.find_element_by_name('placeYourOrder1').click()
+        driver.find_element_by_name('placeYourOrder1').click()
         time.sleep(1)
-        self._upload_screen_shot(driver, 'order', 'finished')
+        self._upload_screen_shot(driver, 'order_finished', timestamp)
         logger.info(f"order that it clear!!!!")
 
         driver.quit()
@@ -248,12 +248,8 @@ class PurchaseClass:
         # amazonにアクセスする
         amazon_url = 'https://www.amazon.co.jp/'
         driver.get(amazon_url)
-
-        
-
         self._add_cookies_to_driver(driver, self._return_checked_cookies_from_s3())
-        # driver.refresh()
-
+    
         # 商品ページにアクセスする
         driver.get(item_url)
         time.sleep(1)
