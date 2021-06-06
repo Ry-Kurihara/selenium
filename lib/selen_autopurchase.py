@@ -122,6 +122,7 @@ class PurchaseClass:
         # cookie情報でログインできている場合
         else:
             logger.info('switched_is_not_required')
+            self._upload_screen_shot(driver, 'not_req', 'heroku')
             pass
         return None
 
