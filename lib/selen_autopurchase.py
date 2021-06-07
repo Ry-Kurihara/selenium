@@ -64,7 +64,7 @@ class PurchaseClass:
             pickle.dump(driver.get_cookies(), f)
         s3_resorce.Bucket('my-bucket-ps5').upload_file(upload_name, upload_name)
 
-    def _return_checked_cookies_from_s3(self, cookie_name='captcha.pickle'):
+    def _read_cookies_from_s3(self, cookie_name='captcha.pickle'):
         s3 = boto3.resource('s3')
         pkl_name = cookie_name
         s3.Bucket('my-bucket-ps5').download_file(pkl_name, pkl_name)
@@ -84,7 +84,7 @@ class PurchaseClass:
             f.write(html)
         s3_resorce.Bucket('my-bucket-ps5').upload_file(html_name, html_name)
 
-    def _upload_screen_shot(self, driver, image_name, timestamp, folder_name='created_image_file/'):
+    def _upload_screen_shot(self, driver, image_name, timestamp, folder_name='created_file/image/'):
         s3_resorce = boto3.resource('s3')
         image_name = f'{folder_name}line_{image_name}_{timestamp}.png'
         driver.save_screenshot(image_name)
@@ -203,7 +203,7 @@ class PurchaseClass:
         # amazonにアクセスする
         amazon_url = 'https://www.amazon.co.jp/'
         driver.get(amazon_url)
-        self._add_cookies_to_driver(driver, self._return_checked_cookies_from_s3())
+        self._add_cookies_to_driver(driver, self._read_cookies_from_s3())
 
         # 一旦カートの中身を削除
         self._clear_items_already_exits_in_cart(driver)
@@ -250,7 +250,7 @@ class PurchaseClass:
         # amazonにアクセスする
         amazon_url = 'https://www.amazon.co.jp/'
         driver.get(amazon_url)
-        self._add_cookies_to_driver(driver, self._return_checked_cookies_from_s3())
+        self._add_cookies_to_driver(driver, self._read_cookies_from_s3())
     
         # 商品ページにアクセスする
         driver.get(item_url)

@@ -4,7 +4,7 @@ import logging
 from flask_data import create_app
 app = create_app()
 
-def _setup_logger(name, logfile='LOGFILENAME.txt'):
+def _setup_logger(name, logfile='created_file/log/purchase_log.txt'):
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)
 
