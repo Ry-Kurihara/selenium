@@ -4,7 +4,7 @@
 /logfile
 /.env
 flask_data/__payache__/
-/created_file/image
+/created_file/image/*
 !/created_file/image/.gitkeep
 /.DS_Store
 # これ以下の全ディレクトリに適用
