@@ -1,2 +1,32 @@
 2021-06-08 01:22:01,163 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - __init__ - mywin: your environ is mywin
 2021-06-08 01:22:01,164 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_title_and_asin_from_url - started_get_title_and_asin_from_url
+2021-06-10 01:14:00,328 - INFO - line.py - app.flask.flask_line_api.line - get_url_and_ask_time - we killed scheduler!
+2021-06-10 01:17:16,281 - INFO - line.py - app.flask.flask_line_api.line - get_url_and_ask_time - we killed scheduler!
+2021-06-10 01:31:40,058 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-06-10 01:32:23,752 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - __init__ - mywin: your environ is mywin
+2021-06-10 01:32:23,752 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-06-10 01:32:34,542 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _clear_items_already_exits_in_cart - finished clear items!!!
+2021-06-10 01:32:39,213 - WARNING - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - availability_is_在庫状況について (@ _ @)
+2021-06-10 01:32:39,213 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - job finished because availability or merchant is not correct!!
+2021-06-10 01:32:39,295 - INFO - line.py - app.flask.flask_line_api.line - _start_search - continue...
+2021-06-10 01:32:40,058 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-06-10 01:32:40,954 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - __init__ - mywin: your environ is mywin
+2021-06-10 01:32:40,954 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-06-10 01:32:50,532 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _clear_items_already_exits_in_cart - finished clear items!!!
+2021-06-10 01:32:54,919 - WARNING - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - availability_is_在庫状況について (@ _ @)
+2021-06-10 01:32:54,920 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - job finished because availability or merchant is not correct!!
+2021-06-10 01:32:54,995 - INFO - line.py - app.flask.flask_line_api.line - _start_search - continue...
+2021-06-10 01:33:10,054 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-06-10 01:33:10,845 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - __init__ - mywin: your environ is mywin
+2021-06-10 01:33:10,845 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-06-10 01:33:20,712 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _clear_items_already_exits_in_cart - finished clear items!!!
+2021-06-10 01:33:24,917 - WARNING - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - availability_is_在庫状況について (@ _ @)
+2021-06-10 01:33:24,917 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - job finished because availability or merchant is not correct!!
+2021-06-10 01:33:24,993 - INFO - line.py - app.flask.flask_line_api.line - _start_search - continue...
+2021-06-10 01:33:40,059 - INFO - line.py - app.flask.flask_line_api.line - _start_search - we_try_to_purchase_by_30_seconds!!
+2021-06-10 01:33:40,803 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - __init__ - mywin: your environ is mywin
+2021-06-10 01:33:40,804 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - getting_started_get_item!
+2021-06-10 01:33:49,798 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _clear_items_already_exits_in_cart - finished clear items!!!
+2021-06-10 01:33:54,366 - WARNING - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - availability_is_在庫状況について (@ _ @)
+2021-06-10 01:33:54,366 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - job finished because availability or merchant is not correct!!
+2021-06-10 01:33:54,444 - INFO - line.py - app.flask.flask_line_api.line - _start_search - continue...

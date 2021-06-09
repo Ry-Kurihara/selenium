@@ -29,6 +29,7 @@ from linebot.models import (
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '../my_lib'))
 import param_store as ps
+import requests
 
 import logging
 logger = logging.getLogger('app.flask').getChild(__name__)
@@ -143,6 +144,12 @@ def get_url_and_ask_time(event):
             messages=text_message
         )
 
+    # TODO: 後で作る
+    elif 'my_sched' in message: 
+        jobs = sched.get_jobs()
+        for job in jobs:
+            print(job.next_run_time)
+
     # リッチメニューからのメッセージ
     elif '使い方を教えて' in message:
         text_message = TextSendMessage(text='https://selen-ps5.herokuapp.com/histories/show/line_bot_description')
@@ -223,6 +230,8 @@ def _get_s3_image_url(image_name, timestamp, folder_name='created_file/image/'):
 
 def _start_search(schedule_seconds, url, user_id, max_price, timestamp):
     logger.info(f'we_try_to_purchase_by_{schedule_seconds}_seconds!!')
+    # sleep対策
+    requests.get('https://selen-ps5.herokuapp.com/')
     purchaser = selen_autopurchase.PurchaseClass()
     status = purchaser.get_item(url, max_price, timestamp)
     if status:
