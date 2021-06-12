@@ -29,10 +29,3 @@ class Message_History(db.Model):
 
     def __repr__(self):
         return '<Message_History message:{} user_id:{} timestamp:{}>'.format(self.message, self.user_id, self.timestamp)
-
-
-class Jobstore_History(db.Model):
-    __tablename__ = 'line_ps5_jobstore'
-    id = db.Column(db.Text, primary_key=True)
-    next_run_time = db.Column(db.Text, primary_key=True)
-    job_state = db.Column(db.Text, primary_key=True)
