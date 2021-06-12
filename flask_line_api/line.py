@@ -132,7 +132,7 @@ def get_url_and_ask_time(event):
         product_url = df.at[0, 'item_url']
         max_price = df.at[0, 'max_price']
         text_message = TextSendMessage(text=f'{product_title}のスケジューラを{schedule_seconds}秒間隔で設定します')
-        hs.Jobstore_History.create_all(bind=engine, checkfirst=True)
+        hs.Jobstore_History.create_all(bind=engine)
         job_stores = SQLAlchemyJobStore(engine=engine, tablename=hs.Jobstore_History.__tablename__)
         # sched.remove_jobstore('default')
         sched.add_jobstore(job_stores)
