@@ -30,3 +30,4 @@
 2021-06-10 01:33:54,366 - WARNING - selen_autopurchase.py - app.flask.lib.selen_autopurchase - _is_availabile - availability_is_在庫状況について (@ _ @)
 2021-06-10 01:33:54,366 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - job finished because availability or merchant is not correct!!
 2021-06-10 01:33:54,444 - INFO - line.py - app.flask.flask_line_api.line - _start_search - continue...
+2021-06-13 01:04:12,158 - INFO - line.py - app.flask.flask_line_api.line - get_url_and_ask_time - we killed scheduler!
