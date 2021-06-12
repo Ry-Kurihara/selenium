@@ -131,7 +131,10 @@ def get_url_and_ask_time(event):
         max_price = df.at[0, 'max_price']
         text_message = TextSendMessage(text=f'{product_title}のスケジューラを{schedule_seconds}秒間隔で設定します')
         job_stores = SQLAlchemyJobStore(engine=engine, tablename='line_ps5_jobstore')
-        # sched.remove_jobstore('default')
+        try:
+            sched.remove_jobstore('default')
+        except:
+            print('default_jobstoreはないよ')
         sched.add_jobstore(job_stores)
         sched.add_job(_start_search, 'interval', args=[schedule_seconds, product_url, user_id, max_price, timestamp], seconds=schedule_seconds, id='job_get_item_from_amazon')
         sched.start()
@@ -143,7 +146,10 @@ def get_url_and_ask_time(event):
 
     elif 'sched_end' in message:
         job_stores = SQLAlchemyJobStore(engine=engine, tablename='line_ps5_jobstore')
-        # sched.remove_jobstore('default')
+        try:
+            sched.remove_jobstore('default')
+        except:
+            print('default_jobstoreはないよ')
         sched.add_jobstore(job_stores)
         sched.remove_job('job_get_item_from_amazon')
         text_message = TextSendMessage(text='スケジューラを終了しました')
@@ -156,7 +162,10 @@ def get_url_and_ask_time(event):
     # TODO: 後で作る
     elif 'my_sched' in message: 
         job_stores = SQLAlchemyJobStore(engine=engine, tablename='line_ps5_jobstore')
-        # sched.remove_jobstore('default')
+        try:
+            sched.remove_jobstore('default')
+        except:
+            print('default_jobstoreはないよ')
         sched.add_jobstore(job_stores)
         jobs = sched.get_jobs()
         for job in jobs:
