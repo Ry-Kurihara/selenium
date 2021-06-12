@@ -30,7 +30,9 @@ from linebot.models import (
 
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '../my_lib'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../flask_data/models'))
 import param_store as ps
+import histories as hs
 import requests
 
 import logging
@@ -130,7 +132,8 @@ def get_url_and_ask_time(event):
         product_url = df.at[0, 'item_url']
         max_price = df.at[0, 'max_price']
         text_message = TextSendMessage(text=f'{product_title}のスケジューラを{schedule_seconds}秒間隔で設定します')
-        job_stores = SQLAlchemyJobStore(engine=engine, tablename='selen')
+        hs.Jobstore_History.create_all(bind=engine, checkfirst=True)
+        job_stores = SQLAlchemyJobStore(engine=engine, tablename=hs.Jobstore_History.__tablename__)
         # sched.remove_jobstore('default')
         sched.add_jobstore(job_stores)
         sched.add_job(_start_search, 'interval', args=[schedule_seconds, product_url, user_id, max_price, timestamp], seconds=schedule_seconds, id='job_get_item_from_amazon')
