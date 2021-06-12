@@ -130,9 +130,8 @@ def get_url_and_ask_time(event):
         product_url = df.at[0, 'item_url']
         max_price = df.at[0, 'max_price']
         text_message = TextSendMessage(text=f'{product_title}のスケジューラを{schedule_seconds}秒間隔で設定します')
-        job_stores = SQLAlchemyJobStore(url=HEROKU_POSTGRES_URL, tablename='selen')
-        job = Job(_start_search, 'interval', args=[schedule_seconds, product_url, user_id, max_price, timestamp], seconds=schedule_seconds, id='job_get_item_from_amazon')
-        job_stores.add_job(job)
+        job_stores = SQLAlchemyJobStore(engine=engine, tablename='selen')
+        sched.remove_jobstore('default')
         sched.add_jobstore(job_stores)
         sched.add_job(_start_search, 'interval', args=[schedule_seconds, product_url, user_id, max_price, timestamp], seconds=schedule_seconds, id='job_get_item_from_amazon')
         sched.start()
