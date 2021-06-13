@@ -13,8 +13,6 @@ import boto3
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
-from apscheduler.job import Job
-from apscheduler.triggers.interval import IntervalTrigger
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -36,8 +34,6 @@ import requests
 
 import logging
 logger = logging.getLogger('app.flask').getChild(__name__)
-
-sched = BackgroundScheduler(timezone=timezone('Asia/Tokyo'))
 
 YOUR_CHANNEL_ACCESS_TOKEN = ps.get_parameters('/line/message_api/line_channel_access_token')
 YOUR_CHANNEL_SECRET = ps.get_parameters('/line/message_api/line_channel_secret')
@@ -132,19 +128,14 @@ def get_url_and_ask_time(event):
         max_price = df.at[0, 'max_price']
         text_message = TextSendMessage(text=f'{product_title}のスケジューラを{schedule_seconds}秒間隔で設定します')
 
-        job_stores = SQLAlchemyJobStore(engine=engine, tablename='line_ps5_jobstore')
-        job_trigger = IntervalTrigger(seconds=schedule_seconds)
-        observe_job = Job(sched, id='job_get_item_from_amazon', func=_start_search, args=[schedule_seconds, product_url, user_id, max_price, timestamp], trigger=job_trigger)
-        job_stores.add_job(job=observe_job)
-        job_stores.start(sched)
-
-        # try:
-        #     sched.remove_jobstore('default')
-        # except:
-        #     print('default_jobstoreはないよ')
-        # sched.add_jobstore(job_stores)
-        # sched.add_job(_start_search, 'interval', args=[schedule_seconds, product_url, user_id, max_price, timestamp], seconds=schedule_seconds, id='job_get_item_from_amazon')
-        # sched.start()
+        db_job_store = SQLAlchemyJobStore(engine=engine, tablename='line_ps5_jobstore')
+        sched = BackgroundScheduler(timezone=timezone('Asia/Tokyo'), jobstores={'postgres': db_job_stores})
+        try:
+            sched.remove_jobstore('default')
+        except:
+            print('default_jobstoreはないよ')
+        sched.add_job(_start_search, 'interval', args=[schedule_seconds, product_url, user_id, max_price, timestamp], seconds=schedule_seconds, id='job_get_item_from_amazon')
+        sched.start()
 
         line_bot_api.reply_message(
             event.reply_token,
