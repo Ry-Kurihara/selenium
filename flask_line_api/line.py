@@ -129,7 +129,7 @@ def get_url_and_ask_time(event):
         text_message = TextSendMessage(text=f'{product_title}のスケジューラを{schedule_seconds}秒間隔で設定します')
 
         db_job_store = SQLAlchemyJobStore(engine=engine, tablename='line_ps5_jobstore')
-        sched = BackgroundScheduler(timezone=timezone('Asia/Tokyo'), jobstores={'postgres': db_job_stores})
+        sched = BackgroundScheduler(timezone=timezone('Asia/Tokyo'), jobstores={'postgres': db_job_store})
         try:
             sched.remove_jobstore('default')
         except:
