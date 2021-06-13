@@ -130,7 +130,7 @@ def get_url_and_ask_time(event):
         text_message = TextSendMessage(text=f'{product_title}のスケジューラを{schedule_seconds}秒間隔で設定します')
 
         # db_job_store = SQLAlchemyJobStore(engine=engine, tablename='line_ps5_jobstore')
-        scheduler.add_job(_start_search, 'interval', args=[schedule_seconds, product_url, user_id, max_price, timestamp], seconds=schedule_seconds, id='job_get_item_from_amazon')
+        scheduler.add_job(func=_start_search, id='job_get_item_from_amazon', trigger='interval', args=[schedule_seconds, product_url, user_id, max_price, timestamp], seconds=schedule_seconds)
 
         line_bot_api.reply_message(
             event.reply_token,
