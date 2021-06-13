@@ -238,7 +238,7 @@ def _start_search(schedule_seconds, url, user_id, max_price, timestamp):
     status = purchaser.get_item(url, max_price, timestamp)
     if status:
         logger.info(f'got_it_over!!!!')
-        sched.remove_job('job_get_item_from_amazon')
+        scheduler.remove_job('job_get_item_from_amazon')
         logger.info(f"we killed scheduler!!!!!!!")
         # LINEで通知
         txt_messages = TextSendMessage(text='購入完了したよ')
