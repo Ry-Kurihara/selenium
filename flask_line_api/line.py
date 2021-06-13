@@ -14,6 +14,7 @@ import boto3
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 from apscheduler.job import Job
+from apscheduler.triggers.interval import IntervalTrigger
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -130,14 +131,20 @@ def get_url_and_ask_time(event):
         product_url = df.at[0, 'item_url']
         max_price = df.at[0, 'max_price']
         text_message = TextSendMessage(text=f'{product_title}のスケジューラを{schedule_seconds}秒間隔で設定します')
+
         job_stores = SQLAlchemyJobStore(engine=engine, tablename='line_ps5_jobstore')
-        try:
-            sched.remove_jobstore('default')
-        except:
-            print('default_jobstoreはないよ')
-        sched.add_jobstore(job_stores)
-        sched.add_job(_start_search, 'interval', args=[schedule_seconds, product_url, user_id, max_price, timestamp], seconds=schedule_seconds, id='job_get_item_from_amazon')
-        sched.start()
+        job_trigger = IntervalTrigger(seconds=schedule_seconds)
+        observe_job = Job(id='job_get_item_from_amazon', func=_start_search, args=[schedule_seconds, product_url, user_id, max_price, timestamp], trigger=job_trigger)
+        job_stores.add_job(job=observe_job)
+        job_stores.start(sched)
+
+        # try:
+        #     sched.remove_jobstore('default')
+        # except:
+        #     print('default_jobstoreはないよ')
+        # sched.add_jobstore(job_stores)
+        # sched.add_job(_start_search, 'interval', args=[schedule_seconds, product_url, user_id, max_price, timestamp], seconds=schedule_seconds, id='job_get_item_from_amazon')
+        # sched.start()
 
         line_bot_api.reply_message(
             event.reply_token,
