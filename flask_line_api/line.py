@@ -13,6 +13,7 @@ import boto3
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
+from flask_data import scheduler
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -128,14 +129,8 @@ def get_url_and_ask_time(event):
         max_price = df.at[0, 'max_price']
         text_message = TextSendMessage(text=f'{product_title}のスケジューラを{schedule_seconds}秒間隔で設定します')
 
-        db_job_store = SQLAlchemyJobStore(engine=engine, tablename='line_ps5_jobstore')
-        sched = BackgroundScheduler(timezone=timezone('Asia/Tokyo'), jobstores={'postgres': db_job_store})
-        try:
-            sched.remove_jobstore('default')
-        except:
-            print('default_jobstoreはないよ')
-        sched.add_job(_start_search, 'interval', args=[schedule_seconds, product_url, user_id, max_price, timestamp], seconds=schedule_seconds, id='job_get_item_from_amazon')
-        sched.start()
+        # db_job_store = SQLAlchemyJobStore(engine=engine, tablename='line_ps5_jobstore')
+        scheduler.add_job(_start_search, 'interval', args=[schedule_seconds, product_url, user_id, max_price, timestamp], seconds=schedule_seconds, id='job_get_item_from_amazon')
 
         line_bot_api.reply_message(
             event.reply_token,

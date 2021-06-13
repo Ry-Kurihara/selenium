@@ -1,7 +1,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_apscheduler import APScheduler
 
 db = SQLAlchemy()
+scheduler = APScheduler()
 
 def create_app(test_config=None):
     app = Flask(__name__)
@@ -18,5 +20,9 @@ def create_app(test_config=None):
 
     from flask_line_api.line import line 
     app.register_blueprint(line)
+
+    # initialize scheduler 
+    scheduler.init_app(app)
+    scheduler.start()
 
     return app 
