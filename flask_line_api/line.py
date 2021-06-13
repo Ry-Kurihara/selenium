@@ -138,13 +138,7 @@ def get_url_and_ask_time(event):
         )
 
     elif 'sched_end' in message:
-        job_stores = SQLAlchemyJobStore(engine=engine, tablename='line_ps5_jobstore')
-        try:
-            sched.remove_jobstore('default')
-        except:
-            print('default_jobstoreはないよ')
-        sched.add_jobstore(job_stores)
-        sched.remove_job('job_get_item_from_amazon')
+        scheduler.remove_job('job_get_item_from_amazon')
         text_message = TextSendMessage(text='スケジューラを終了しました')
         logger.info('we killed scheduler!')
         line_bot_api.reply_message(
@@ -154,13 +148,7 @@ def get_url_and_ask_time(event):
 
     # TODO: 後で作る
     elif 'my_sched' in message: 
-        job_stores = SQLAlchemyJobStore(engine=engine, tablename='line_ps5_jobstore')
-        try:
-            sched.remove_jobstore('default')
-        except:
-            print('default_jobstoreはないよ')
-        sched.add_jobstore(job_stores)
-        jobs = sched.get_jobs()
+        jobs = scheduler.get_jobs()
         for job in jobs:
             print(job.next_run_time)
 
