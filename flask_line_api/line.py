@@ -134,7 +134,7 @@ def get_url_and_ask_time(event):
 
         job_stores = SQLAlchemyJobStore(engine=engine, tablename='line_ps5_jobstore')
         job_trigger = IntervalTrigger(seconds=schedule_seconds)
-        observe_job = Job(id='job_get_item_from_amazon', func=_start_search, args=[schedule_seconds, product_url, user_id, max_price, timestamp], trigger=job_trigger)
+        observe_job = Job(sched, id='job_get_item_from_amazon', func=_start_search, args=[schedule_seconds, product_url, user_id, max_price, timestamp], trigger=job_trigger)
         job_stores.add_job(job=observe_job)
         job_stores.start(sched)
 
