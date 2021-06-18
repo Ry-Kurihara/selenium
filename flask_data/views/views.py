@@ -3,6 +3,12 @@ from functools import wraps
 from flask import Blueprint
 from flask import current_app as app 
 
+from werkzeug.security import generate_password_hash, check_password_hash
+import sys, os
+sys.path.append(os.path.join(os.path.dirname(__file__), '../models/'))
+from histories import User
+from flask_data import db 
+
 view = Blueprint('view', __name__)
 
 def login_required(view):
@@ -17,10 +23,29 @@ def login_required(view):
 def display_top_page():
     return render_template('top.html')
 
+
+@view.route('/signup', methods=['POST'])
+def signup_post():
+    user_id = request.form.get('user_id')
+    username = request.form.get('username')
+    password = request.form.get('password')
+
+    user = User.query.filter_by(user_id=user_id).first()
+
+    if user:
+        flash('Email address already exists!!')
+        return redirect(url_for('auth.signup'))
+
+    new_user = User(user_id=user_id, username=username, password=generate_password_hash(password, method='sha256'))
+
+    db.session.add(new_user)
+    db.session.commit()
+
+    return redirect(url_for('auth.login'))
+
+
 @view.route('/login', methods=['GET', 'POST'])
 def login():
-    error = None
-    print(request.method)
     if request.method == 'POST':
         if request.form['username'] != app.config['USERNAME']:
             flash('ユーザ名が異なります')

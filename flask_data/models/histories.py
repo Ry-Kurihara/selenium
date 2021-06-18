@@ -29,3 +29,10 @@ class Message_History(db.Model):
 
     def __repr__(self):
         return '<Message_History message:{} user_id:{} timestamp:{}>'.format(self.message, self.user_id, self.timestamp)
+
+
+class User(db.Model):
+    __tablename__ = 'user_auth'
+    user_id = db.Column(db.Text, unique=True, primary_key=True)
+    username = db.Column(db.Text)
+    password = db.Column(db.Text)
