@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                   <img
-                    src="static/images/messaging-api-thumb.png"
+                    src="static/images/tech_icon.jpg"
                     class="img-fluid"
                   />
                   <a href="#!">
@@ -28,7 +28,7 @@
             <div class="card">
                 <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                   <img
-                    src="static/images/pc_and_mobile.jpg"
+                    src="static/images/tech_icon.jpg"
                     class="img-fluid"
                   />
                   <a href="#!">
@@ -45,29 +45,24 @@
               </div>
         </div>
         <div class="col-xs-12 col-lg-4">
-            <div class="card" style="width: 18rem">
-                <img
-                  src="https://mdbootstrap.com/img/new/standard/city/062.jpg"
-                  class="card-img-top"
-                  alt="..."
-                />
-                <div class="card-body">
-                  <h5 class="card-title">About This Site and Tools</h5>
-                  <p class="card-text">
-                    Some quick example text to build on the card title and make up the bulk of the
-                    card's content.
-                  </p>
-                </div>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item">About This Site</li>
-                  <li class="list-group-item">Q & A</li>
-                  <li class="list-group-item">Contact Form</li>
-                </ul>
-                <div class="card-body">
-                  <a href="#" class="card-link">Card link</a>
-                  <a href="#" class="card-link">Another link</a>
-                </div>
-              </div>
+          <div class="card">
+            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+              <img
+                src="static/images/tech_icon.jpg"
+                class="img-fluid"
+              />
+              <a href="#!">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
+              </a>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">User Information</h5>
+              <p class="card-text">
+                ログイン者の情報を閲覧できます。ログインが必要。
+              </p>
+              <a href="{{ url_for('history.show_user_info', user_id=current_user.user_id) }}" class="btn btn-primary">Button</a>
+            </div>
+          </div>
         </div>
     </div>
 </div>

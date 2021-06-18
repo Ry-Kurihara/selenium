@@ -6,6 +6,8 @@ from flask_data.models.histories import Scheduled_History, Message_History
 from flask import current_app as app 
 from sqlalchemy import desc
 
+from flask_login import login_required, current_user
+
 history = Blueprint('history', __name__)
 
 # TODO: debug用の全履歴：後で消す
@@ -24,3 +26,8 @@ def show_history(user_id):
 @history.route('/show/line_bot_description')
 def show_line_bot_description():
     return render_template('histories/line_bot_description.html')
+
+@history.route('/show/info/<string:user_id>')
+@login_required
+def show_user_info(user_id):
+    return render_template('histories/userinfo.html', username=current_user.username)
