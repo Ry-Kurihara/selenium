@@ -240,6 +240,7 @@ def _start_search(schedule_seconds, url, user_id, max_price, timestamp):
     status = purchaser.get_item(url, max_price, timestamp)
     message_datetime = datetime.datetime.fromtimestamp(int(timestamp)/1000)
     # databaseに保存
+    engine = create_engine(HEROKU_POSTGRES_URL)
     df = pd.DataFrame(data=[[user_id, message_datetime, status, url]], columns=['user_id', 'timestamp', 'job_message', 'item_url'])
     df.to_sql('line_purchase_job_history', con=engine, if_exists='append', index=False)
     if status == 'got_it_over':
