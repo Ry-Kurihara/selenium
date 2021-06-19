@@ -47,6 +47,8 @@ from flask import Blueprint
 from flask import current_app as app 
 line = Blueprint('line', __name__)
 
+import datetime
+
 @line.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value: signatureは意味不明な文字列
@@ -58,10 +60,10 @@ def callback():
 
     # handle webhook body: エラーメッセージを出力したくない場合tryでくるむ
     handler.handle(body, signature)
-    # try:
-    #     handler.handle(body, signature)
-    # except InvalidSignatureError:
-    #     abort(400)
+    try:
+        handler.handle(body, signature)
+    except InvalidSignatureError:
+        abort(400)
 
     return 'OK'
 
@@ -236,7 +238,11 @@ def _start_search(schedule_seconds, url, user_id, max_price, timestamp):
     requests.get('https://selen-ps5.herokuapp.com/')
     purchaser = selen_autopurchase.PurchaseClass()
     status = purchaser.get_item(url, max_price, timestamp)
-    if status:
+    message_datetime = datetime.datetime.fromtimestamp(int(timestamp)/1000)
+    # databaseに保存
+    df = pd.DataFrame(data=[[user_id, message_datetime, status, url]], columns=['user_id', 'timestamp', 'job_message', 'item_url'])
+    df.to_sql('line_purchase_list', con=engine, if_exists='append', index=False)
+    if status == 'got_it_over':
         logger.info(f'got_it_over!!!!')
         scheduler.remove_job('job_get_item_from_amazon')
         logger.info(f"we killed scheduler!!!!!!!")

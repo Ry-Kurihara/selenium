@@ -131,10 +131,10 @@ class PurchaseClass:
         total_price = int(driver.find_element_by_class_name('grand-total-price').text.replace('￥', '').replace(',', ''))
         if total_price <= int(your_max_price):
             logger.info(f"OK!!! your max price is {your_max_price} and total price is {total_price}")
-            return True
+            return True, total_price
         else:
             logger.info(f"That is too Expensive!!! your max price is {your_max_price} but total price is {total_price}")
-            return False
+            return False, total_price
         
     def _clear_items_already_exits_in_cart(self, driver):
         # カートページに移動
@@ -214,7 +214,7 @@ class PurchaseClass:
         if not self._is_ok_availability_and_merchant(driver):
             logger.info('job finished because availability or merchant is not correct!!')
             driver.quit()
-            return False
+            return 'job finished because availability or merchant is not correct!!'
 
         # カートに追加してカートページに移動
         driver.find_element_by_id('add-to-cart-button').click()
@@ -229,7 +229,10 @@ class PurchaseClass:
         # check_total_price
         time.sleep(1)
         self._upload_screen_shot(driver, 'cart', 'just_before_purchase')
-        self._has_cheaper_total_price_than_your_max_price(driver, max_price)
+        is_ok_price_bool, price = self._has_cheaper_total_price_than_your_max_price(driver, max_price)
+        if not is_ok_price_bool:
+            # TODO: logger打つところを関数内かこっちで打つか統一したいmerchantの方はこっちで打ってる
+            return f'too large price!! your order is {max_price} but price is {price}'
 
         # purchase Item
         # driver.find_element_by_name('placeYourOrder1').click()
@@ -238,7 +241,7 @@ class PurchaseClass:
         logger.info(f"order that it clear!!!!")
 
         driver.quit()
-        return True
+        return 'got_it_over'
         
 
     def get_title_and_asin_from_url(self, timestamp, item_url):
