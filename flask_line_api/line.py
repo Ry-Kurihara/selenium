@@ -241,7 +241,7 @@ def _start_search(schedule_seconds, url, user_id, max_price, timestamp):
     message_datetime = datetime.datetime.fromtimestamp(int(timestamp)/1000)
     # databaseに保存
     df = pd.DataFrame(data=[[user_id, message_datetime, status, url]], columns=['user_id', 'timestamp', 'job_message', 'item_url'])
-    df.to_sql('line_purchase_list', con=engine, if_exists='append', index=False)
+    df.to_sql('line_purchase_job_history', con=engine, if_exists='append', index=False)
     if status == 'got_it_over':
         logger.info(f'got_it_over!!!!')
         scheduler.remove_job('job_get_item_from_amazon')
