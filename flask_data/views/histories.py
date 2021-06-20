@@ -2,7 +2,7 @@ from flask_data.views.views import login_required
 from flask import request, redirect, url_for, render_template, flash, session
 from flask_data import db 
 from flask import Blueprint
-from flask_data.models.histories import Scheduled_History, Message_History
+from flask_data.models.histories import Scheduled_History, Message_History, Job_History
 from flask import current_app as app 
 from sqlalchemy import desc
 
@@ -21,7 +21,8 @@ def show_all_history():
 def show_history(user_id):
     message_histories = Message_History.query.filter(Message_History.user_id == user_id).order_by(desc(Message_History.timestamp)).limit(50).all()
     scheduled_histories = Scheduled_History.query.filter(Scheduled_History.user_id == user_id).order_by(desc(Scheduled_History.timestamp)).limit(50).all()
-    return render_template('histories/show.html', message_histories=message_histories, scheduled_histories=scheduled_histories)
+    job_histories = Job_History.query.filter(Job_History.user_id == user_id).order_by(desc(Job_History.timestamp)).limit(50).all()
+    return render_template('histories/show.html', message_histories=message_histories, scheduled_histories=scheduled_histories, job_histories=job_histories)
 
 @history.route('/show/line_bot_description')
 def show_line_bot_description():

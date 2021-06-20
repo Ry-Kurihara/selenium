@@ -235,7 +235,7 @@ class PurchaseClass:
             return f'too large price!! your order is {max_price} but price is {price}'
 
         # purchase Item
-        # driver.find_element_by_name('placeYourOrder1').click()
+        driver.find_element_by_name('placeYourOrder1').click()
         time.sleep(1)
         self._upload_screen_shot(driver, 'order_finished', timestamp)
         logger.info(f"order that it clear!!!!")

@@ -32,6 +32,23 @@
             </ul>
 
         </div>
+
+        <div class="col-xs-6 col-lg-4">
+            <h3>Job Histories</h3>
+
+            <ul class="list-group list-group-flush">
+            {% for history in job_histories %}
+            <div class="card text-center">
+                <div class="card-header">{{ history.timestamp }}</div>
+                <div class="card-body">
+                  <h5 class="card-title">{{ history.job_message }}</h5>
+                </div>
+                <div class="card-footer text-muted"><a href="{{ history.item_url }}" target="_blank">target_item</a></div>
+            </div>
+            {% endfor %}
+            </ul>
+
+        </div>
     </div>
 </div>
 
