@@ -238,9 +238,9 @@ def _start_search(schedule_seconds, url, user_id, max_price, timestamp):
     requests.get('https://selen-ps5.herokuapp.com/')
     purchaser = selen_autopurchase.PurchaseClass()
     status = purchaser.get_item(url, max_price, timestamp)
-    message_datetime = datetime.datetime.fromtimestamp(int(timestamp)/1000)
+    job_finished_datetime = datetime.datetime.now()
     # databaseに保存
-    df = pd.DataFrame(data=[[user_id, message_datetime, status, url]], columns=['user_id', 'timestamp', 'job_message', 'item_url'])
+    df = pd.DataFrame(data=[[user_id, job_finished_datetime, status, url]], columns=['user_id', 'timestamp', 'job_message', 'item_url'])
     df.to_sql('line_purchase_job_history', con=engine, if_exists='append', index=False)
     if status == 'got_it_over':
         logger.info(f'got_it_over!!!!')
