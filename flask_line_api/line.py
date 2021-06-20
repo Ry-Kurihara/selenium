@@ -39,6 +39,7 @@ logger = logging.getLogger('app.flask').getChild(__name__)
 YOUR_CHANNEL_ACCESS_TOKEN = ps.get_parameters('/line/message_api/line_channel_access_token')
 YOUR_CHANNEL_SECRET = ps.get_parameters('/line/message_api/line_channel_secret')
 HEROKU_POSTGRES_URL = ps.get_parameters('/heroku/postgres_url')
+engine = create_engine(HEROKU_POSTGRES_URL)
 
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
@@ -74,7 +75,6 @@ def get_url_and_ask_time(event):
     timestamp = str(event.timestamp)
     message = event.message.text 
 
-    engine = create_engine(HEROKU_POSTGRES_URL)
     df = pd.DataFrame(data=[[user_id, timestamp, message]], columns=['user_id', 'timestamp', 'message'])
     df.to_sql('line_autopurchase', con=engine, if_exists='append', index=False)
 
@@ -240,7 +240,6 @@ def _start_search(schedule_seconds, url, user_id, max_price, timestamp):
     status = purchaser.get_item(url, max_price, timestamp)
     message_datetime = datetime.datetime.fromtimestamp(int(timestamp)/1000)
     # databaseに保存
-    engine = create_engine(HEROKU_POSTGRES_URL)
     df = pd.DataFrame(data=[[user_id, message_datetime, status, url]], columns=['user_id', 'timestamp', 'job_message', 'item_url'])
     df.to_sql('line_purchase_job_history', con=engine, if_exists='append', index=False)
     if status == 'got_it_over':
