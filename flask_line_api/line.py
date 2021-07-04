@@ -59,8 +59,7 @@ def callback():
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
 
-    # handle webhook body: エラーメッセージを出力したくない場合tryでくるむ
-    handler.handle(body, signature)
+    # handle webhook body: エラーメッセージを出力したくない場合tryでくるむ？ TODO: 後で調べる
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:

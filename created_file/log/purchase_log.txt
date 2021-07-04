@@ -31,3 +31,6 @@
 2021-06-10 01:33:54,366 - INFO - selen_autopurchase.py - app.flask.lib.selen_autopurchase - get_item - job finished because availability or merchant is not correct!!
 2021-06-10 01:33:54,444 - INFO - line.py - app.flask.flask_line_api.line - _start_search - continue...
 2021-06-13 01:04:12,158 - INFO - line.py - app.flask.flask_line_api.line - get_url_and_ask_time - we killed scheduler!
+2021-06-25 02:34:09,860 - INFO - line.py - app.flask.flask_line_api.line - get_url_and_ask_time - we killed scheduler!
+2021-06-25 02:35:13,473 - INFO - line.py - app.flask.flask_line_api.line - get_url_and_ask_time - we killed scheduler!
+2021-07-04 15:03:46,647 - INFO - line.py - app.flask.flask_line_api.line - get_url_and_ask_time - we killed scheduler!
